@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    {% extends 'main.html' %}
+    {% load static %}
+    <title>Home</title>
+  </head>
+  <body>
+    {% block content %}
+
+    <div class="container">
+
+      <form method="GET">
+        {% csrf_token %}
+        <div class="row mb-4 row-cols-auto d-flex justify-content-center">
+          <div class="col">
+            {% if filter_button_pressed == "ALL" %}
+            <button type="submit" class="btn btn-outline-light text-primary active" value="All" name="filter_button">ALL</button>
+            {% else %}
+            <button type="submit" class="btn btn-outline-light" value="All" name="filter_button">ALL</button>
+            {% endif %}
+          </div>
+          <div class="col">
+            {% if filter_button_pressed == "Sports" %}
+            <button type="submit" class="btn btn-outline-warning text-light active" value="Sports" name="filter_button"><i class="bi bi-dribbble"></i></button>
+            {% else %}
+            <button type="submit" class="btn btn-outline-light" value="Sports" name="filter_button"><i class="bi bi-dribbble"></i></button>
+            {% endif %}          
+          </div>
+          <div class="col">
+            {% if filter_button_pressed == "Politics" %}
+            <button type="submit" class="btn btn-outline-secondary active" value="Politics" name="filter_button"><i class="bi bi-card-text"></i></button>
+            {% else %}
+            <button type="submit" class="btn btn-outline-light" value="Politics" name="filter_button"><i class="bi bi-card-text"></i></button>
+            {% endif %}    
+          </div>
+          <div class="col">
+            {% if filter_button_pressed == "Gaming" %}
+            <button type="submit" class="btn btn-outline-danger active" value="Gaming" name="filter_button"><i class="bi bi-controller"></i></button>
+            {% else %}
+            <button type="submit" class="btn btn-outline-light" value="Gaming" name="filter_button"><i class="bi bi-controller"></i></button>
+            {% endif %}    
+          </div>
+          <div class="col">
+            {% if filter_button_pressed == "Music" %}
+            <button type="submit" class="btn btn-outline-info text-light active" value="Music" name="filter_button"><i class="bi bi-music-note-beamed"></i></button>
+            {% else %}
+            <button type="submit" class="btn btn-outline-light" value="Music" name="filter_button"><i class="bi bi-music-note-beamed"></i></button>
+            {% endif %}    
+          </div>
+          <div class="col">
+            {% if filter_button_pressed == "Health" %}
+            <button type="submit" class="btn btn-outline-success active" value="Health" name="filter_button"><i class="bi bi-activity"></i></button>
+            {% else %}
+            <button type="submit" class="btn btn-outline-light" value="Health" name="filter_button"><i class="bi bi-activity"></i></button>
+            {% endif %}     
+          </div>
+        </div>
+      </form>
+
+      {% for poll in polls %} 
+        {% if forloop.counter0|divisibleby:3 %} 
+        <div class="row ">
+          {% endif %}
+        <div class="col p-2 d-flex justify-content-center">
+          <div class="card shadow-lg mb-5 bg-body rounded" style="width:85%;height:auto;">
+            <div class="card-body">
+
+              <!-- delete button -->
+              <a href="{% url 'poll_delete' poll.pk filter_button_pressed %}" class=" rounded-circle text-decoration-none float-end text-primary text-opacity-75" style="margin-right:-9px;margin-top:-18px;" id="delete_button" name="delete_button">&#215;</a>
+              
+              <a
+              href="{% url 'poll_vote' poll.pk %}"
+              class="text-decoration-none text-center"
+              >
+
+              <!-- poll image -->
+              <img src="{% static 'images\poll.png' %}" class="card-img-top" alt="..." style="background-size:cover;width:45%;margin-left: 30%;">
+              
+              <h5 class="card-title h-1" style="text-overflow: ellipsis;">{{ poll.question }}</h5>
+              </a>
+              {% if poll.genre == "p" %}
+              <a
+                href="{% url 'poll_vote' poll.pk %}"
+                class="text-decoration-none text-center"
+              >
+               <h5><span class="badge badge-pill bg-secondary"><i class="bi bi-card-text"></i> Politics</span></h5>
+              </a>
+              {% endif %}
+              {% if poll.genre == "s" %}
+              <a
+                href="{% url 'poll_vote' poll.pk %}"
+                class="text-decoration-none text-center"
+              >
+               <h5><span class="badge badge-pill bg-warning "><i class="bi bi-dribbble"></i> Sports</span></h5>
+              </a>
+              {% endif %}
+              {% if poll.genre == "g" %}
+              <a
+                href="{% url 'poll_vote' poll.pk %}"
+                class="text-decoration-none text-center"
+              >
+               <h5><span class="badge badge-pill bg-danger"><i class="bi bi-controller"></i> Gaming</i></span></h5>
+              </a>
+              {% endif %}
+              {% if poll.genre == "h" %}
+              <a
+                href="{% url 'poll_vote' poll.pk %}"
+                class="text-decoration-none text-center"
+              >
+               <h5><span class="badge badge-pill bg-success"><i class="bi bi-activity"></i> Health</span></h5>
+              </a>
+              {% endif %}
+              {% if poll.genre == "m" %}
+              <a
+                href="{% url 'poll_vote' poll.pk %}"
+                class="text-decoration-none text-center"
+              >
+               <h5><span class="badge badge-pill bg-info"><i class="bi bi-music-note-beamed"></i> Music</span></h5>
+              </a>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+        {% if forloop.counter|divisibleby:3 or forloop.last %}
+      </div>
+      {% endif %}
+      {% endfor %}
+
+      
+      <!-- carousel -->
+      
+      <!-- javascript bootstrap -->
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+      
+      <div id="carouselControls" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner">
+
+          {% for question in questions %}
+            {% if forloop.counter0|divisibleby:3 %}
+              <div class="carousel-item {% if forloop.first %}active{% endif %}">
+              <div class="row">
+            {% endif %}
+
+              <div class="col d-flex justify-content-center" style="margin-top:50px;">
+                <div class="card shadow-lg p-3 mb-5" style="width:18rem;height:87%;">
+                  <a href="{% url 'question_answer' question.pk %}" class="text-decoration-none text-dark">
+                    <img src="{% static 'images/q&a.png' %}" class="card-img-top" alt="...">
+                    <div class="card-body">
+                      <h5 class="card-title h-1 " style="text-overflow: ellipsis;text-align: center;" >{{ question.question }}</h5>
+                    </div>
+                  </a>
+                </div>
+              </div>
+
+            {% if forloop.counter|divisibleby:3 or forloop.last %}
+              </div>
+              </div>
+            {% endif %}
+          {% endfor %}
+
+        </div>
+        <button class="carousel-control-prev" style="width:50px;" type="button" data-bs-target="#carouselControls" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" style="width:50px;" type="button" data-bs-target="#carouselControls" data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+        </button>
+      </div>
+
+      <!-- end carousel -->
+    <!-- big container -->    
+  </div>
+
+  <div style="height:100px;"></div>
+
+    {% endblock content %}
+  </body>
+</html>

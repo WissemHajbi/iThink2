@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% extends 'main.html' %}
+    {% load static %}
+    {% load crispy_forms_tags %}
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+
+    {% block content %}
+
+    <div class="container bg-light">
+        <div class="row">
+            <div class="col">
+                <img src="{% static 'images/login.png' %}" class="p-5" style="width:90%;" alt="">
+            </div>
+            <div class="col">
+                <form method="POST" >
+                    {% csrf_token %}
+                    <div class="form-row" style="margin-top:15%">
+                        <div class="form-group col-md-7">
+                            {{ form.username|as_crispy_field }}
+                        </div>
+                    </div>
+                    <div class="form-row" style="margin-top:4%">
+                        <div class="form-group col-md-6">
+                            {{ form.password|as_crispy_field }}
+                        </div>
+                    </div>
+                    <input class="btn btn-outline-primary mt-3" type="submit" value="Login" class="button"/>
+                    <div class="row" style="margin-top: 12px;">
+                        <a href="{% url 'register' %}" style="font-size:16px;text-decoration: none;width:auto;">Registre <i class="bi bi-person-plus-fill"></i></a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    {% endblock content %}
+</body>
+</html>
