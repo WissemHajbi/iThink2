@@ -24,12 +24,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECRET_KEY = 'django-insecure--d0n1zea-66_g!(b4yqg)fg*)!(x=9et71ss29*0_-xsgfg*n8'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = []
 
 
-# Application definition
+# Appliction definition
 
 INSTALLED_APPS = [
     'polls.apps.PollsConfig',

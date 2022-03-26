@@ -6,7 +6,7 @@ from django.views.generic.list import ListView
 from django.contrib.auth.views import LoginView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import poll, deleted, voted, user
-from questions.models import questions, answered
+from .questions.models import questions, answered
 from django.contrib.auth.models import User
 from .forms import registerForm
 from django.contrib.auth import login, authenticate
