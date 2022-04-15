@@ -10,20 +10,20 @@
   <body>
     {% block content %}
 
-    <div class="container bg-light">
+    <div class="container" style="overflow:hidden">
       <div class="row">
-        <div class="col">
+        <div class="col rounded" style="background-color:white">
           <img
             src="{% static 'images/registre.png' %}"
-            class="p-5"
-            style="width: 90%"
+            class="p-3"
+            style="width:100%;margin-top:5%"
             alt=""
           />
         </div>
-        <div class="col">
+        <div class="col rounded" style="background-color:white">
           <form method="POST">
             {% csrf_token %}
-            <div class="form-row" style="margin-top: 15%">
+            <div class="form-row" style="margin-top: 10%">
               <div class="form-group col-md-7">{{ registerForm|crispy }}</div>
             </div>
 
@@ -44,6 +44,8 @@
         </div>
       </div>
     </div>
+
+    <div style="height:100px"></div>
 
     {% endblock content %}
   </body>

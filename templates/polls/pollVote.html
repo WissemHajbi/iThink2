@@ -29,8 +29,18 @@
         {% endfor %}
         <div class="card p-4">
           <div class="card-header font-monospace bg-light p-3 fs-2 text-primary"  >
-            {{polls.question}}
-          </div>
+            <div class="" >
+              {{polls.question}}
+            </div>
+            <form method="POST">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-outline-light" name="poll_creator">
+              <p class="text-secondary" style="font-size: 11px;margin-left:15px;">
+                from  <a href="{% url "profile"  %}" class="text-decoration-none" style="font-size: 16px;" >{{ polls.creator }}</a>
+              </p>
+            </button>
+            </form>
+        </div>
 
           <form method="POST">
             {% csrf_token %}

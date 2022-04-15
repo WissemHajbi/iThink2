@@ -2,11 +2,11 @@ from django.contrib import messages
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy, reverse
-from django.views.generic.list import ListView
+from django.views.generic import ListView, CreateView
 from django.contrib.auth.views import LoginView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import poll, deleted, voted, user
-from .questions.models import questions, answered
+from questions.models import questions, answered
 from django.contrib.auth.models import User
 from .forms import registerForm
 from django.contrib.auth import login, authenticate
@@ -34,12 +34,16 @@ class pollslist(LoginRequiredMixin, ListView):
 
         questions_not_wanted_id = []
         for quesitionitem in context["questions"]:
-
+ 
             for answereditem in context["answered"]:
                 if quesitionitem.id == answereditem.question.id and answereditem.user.user.id == self.request.user.id:
-                    #print(f"question = {answereditem.user.username} {answereditem.user.user.id} {self.request.user.id}")
+                    #print(f"{questionitem.question} = {answereditem.user.user.username} = {self.request.user.id}")
                     questions_not_wanted_id.append(quesitionitem.id)
 
+            if questionitem.status == "disapproved":
+                #print(questionitem.question)
+                questions_not_wanted_id.append(questionitem.id)
+                
         questions_wanted_id = []
         for id in questions_all_id:
             if id not in questions_not_wanted_id:
@@ -69,11 +73,14 @@ class pollslist(LoginRequiredMixin, ListView):
                     #print(f"voted = {voteditem.user.username} {voteditem.user.user.id} {self.request.user.id}")
                     polls_not_wanted_id.append(pollitem.id)
 
+            if pollitem.status == "disapproved":
+                # print(pollitem.question)
+                polls_not_wanted_id.append(pollitem.id)
+
         polls_wanted_id = []
         for id in polls_all_id:
             if id not in polls_not_wanted_id:
                 polls_wanted_id.append(id)
-        
 
         context["polls"] = poll.objects.filter(id__in=polls_wanted_id)
 
@@ -140,6 +147,8 @@ class profileView(LoginRequiredMixin, ListView):
             user=context["user"].id)
         context["answered_questions_number"] = len(answered_questions_number)
 
+        #continue here working on sending the poll creator to this class
+        print(self.request.GET.getlist("poll_creator") or [""])
         return context
 
 
@@ -178,6 +187,7 @@ def register_view(request, *args, **kwargs):
 def vote(request, pk):
     polll = poll.objects.get(id=pk)
 
+    
     if request.method == 'POST':
         answer = request.POST.getlist("answer") or ('None')
         if answer != "None":
@@ -245,6 +255,9 @@ def vote(request, pk):
 
 
 def delete(request, pk, filter_button_pressed):
+
+    # filter_button_pressed to return at the same filtred button before the delete
+
     deleted_user = user.objects.get(user=request.user)
     deleted_poll = poll.objects.get(id=pk)
     deleted_object = deleted.objects.create(
@@ -252,3 +265,13 @@ def delete(request, pk, filter_button_pressed):
     deleted_object.save()
 
     return redirect("home")
+
+class poll_suggestion(CreateView):
+    model = poll
+    fields = ["question", "genre", "answer1", "answer2",
+              "answer3", "answer4", "answer5", "answer6"]
+
+    def form_valid(self ,form):
+        form.instance.creator = self.request.user
+        return super().form_valid(form)
+    

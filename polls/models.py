@@ -4,6 +4,17 @@ from django.contrib.auth.models import User
 from django.urls import reverse
 
 
+class user(models.Model):
+
+    user = models.OneToOneField(User, on_delete=models.CASCADE, unique=True)
+    username = models.CharField(max_length=30)
+    started_date = models.DateTimeField(default=timezone.now)
+    email = models.EmailField(max_length=255, unique=True)
+    
+    USERNAME_FIELD = "email"
+    
+    def __str__(self):
+        return self.username
 class poll(models.Model):
 
     genres = (
@@ -13,8 +24,17 @@ class poll(models.Model):
         ('h', 'health'),
         ('m', 'music'),
     )
+    
+    status = (
+        ('approved', 'approved'),
+        ('disapproved', 'disapproved')
+    )
 
-    question = models.CharField(max_length=80)
+    creator = models.CharField(max_length=30 ,default="wissem")
+
+    status = models.CharField(max_length=11, choices=status,default="disapproved")
+
+    question = models.CharField(max_length=200)
 
     genre = models.CharField(max_length=10, choices=genres, default="")
 
@@ -37,23 +57,17 @@ class poll(models.Model):
     count6 = models.IntegerField(default=0)
 
 
-class user(models.Model):
-
-    user = models.OneToOneField(User, on_delete=models.CASCADE, unique=True)
-    username = models.CharField(max_length=100)
-    started_date = models.DateTimeField(default=timezone.now)
-    email = models.EmailField(max_length=255, unique=True)
-    
-    USERNAME_FIELD = "email"
-    
-    
     def __str__(self):
-        return self.username
+        return self.question[:100]+"..." if len(self.question) > 100 else self.question
+
+    
+    def get_absolute_url(self):
+        return reverse("home")        
 
 
 class voted(models.Model):
 
-    user = models.ForeignKey(user, on_delete=models.CASCADE)
+    user = models.ForeignKey(user, on_delete=models.CASCADE, related_name='voted_polls')
     poll = models.ForeignKey(poll, on_delete=models.CASCADE)
     choice = models.IntegerField(default=0)
     def __str__(self):
@@ -62,8 +76,10 @@ class voted(models.Model):
 
 class deleted(models.Model):
 
-    user = models.ForeignKey(user, on_delete=models.CASCADE)
+    user = models.ForeignKey(user, on_delete=models.CASCADE, related_name="deleted_polls")
     poll = models.ForeignKey(poll, on_delete=models.CASCADE)
 
     def __str__(self):
         return f"{user} deleted {poll.id}"
+
+

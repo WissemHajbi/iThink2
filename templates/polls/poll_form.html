@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% extends 'main.html' %}
+    {% load static %}
+    {% load crispy_forms_tags %}
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Poll suggestion</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+
+    {% block content %}
+
+    <div class="container" style="background-color:white">
+        <div class="row">
+            <div class="col">
+                <img src="{% static 'images/poll_suggestion.jpg' %}" class="p-2" style="width:100%;margin-top:5%" alt="">
+            </div>
+            <div class="col p-4">
+                <form method="POST" >
+                    {% csrf_token %}
+                    <div class="form-row">
+                        <div class="form-group col-md-7">
+                            {{ form|crispy }}
+                        </div>
+                    </div>
+                    <input class="btn btn-outline-primary mt-3" type="submit" value="Suggest" class="button"/>
+            
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div style="height:100px"></div>
+
+    {% endblock content %}
+</body>
+</html>
+
