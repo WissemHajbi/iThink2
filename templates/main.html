@@ -32,7 +32,7 @@
             </div>
             {% if request.user.is_authenticated %}
                 <div class="col ms-5">
-                    <a class="navbar-brand text-primary fs-3 ms-4" href="{% url 'profile' %}"><i class="bi bi-person-square"></i></a>
+                    <a class="navbar-brand text-primary fs-3 ms-4" href="{% url "profile" request.user %}"><i class="bi bi-person-square"></i></a>
                 </div>
                 <div class="col">
                     <a class="navbar-brand text-primary fs-3 ms-4 float-end" href="{% url 'logout' %}"><i class="bi bi-box-arrow-right"></i></a>

@@ -71,7 +71,7 @@
             <div class="card-body">
 
               <!-- delete button -->
-              <a href="{% url 'poll_delete' poll.pk filter_button_pressed %}" class=" rounded-circle text-decoration-none float-end text-primary text-opacity-75" style="margin-right:-9px;margin-top:-18px;" id="delete_button" name="delete_button">&#215;</a>
+              <a href="{% url 'poll_delete' poll.pk filter_button_pressed %}" class="rounded-circle text-decoration-none float-end text-danger text-opacity-75 fs-5 fw-bold" style="margin-top:-10px;" id="delete_button" name="delete_button">&#215;</a>
               
               <a
               href="{% url 'poll_vote' poll.pk %}"
@@ -179,8 +179,8 @@
     </div>
     <!-- end big container 1 -->    
 
-      <!-- container suggestions --> 
-    <div class="container" style="width:75%;border-radius: 25px;">
+    <!-- container suggestions --> 
+    <div class="container shadow-lg bg-body rounded" style="width:75%;border-radius: 25px;">
       
       <div class="row" style="overflow:hidden;">
         <div class="col">
@@ -190,13 +190,13 @@
 
         <div class="col rounded" style="overflow:hidden;margin-left:-13px;background-color:white">
           <div class="row" style="padding:17%;">
-            <a href="{% url 'poll_suggestion' %}" name=""  id="" class="btn btn-primary" role="button" style="border-radius:30px;padding:4%">
+            <a href="{% url 'poll_suggestion' %}" name=""  id="" class="btn btn-primary rounded-pill" role="button" style="padding:4%;font-size:25px;">
               Suggest a poll
               </a>
           </div>
           
           <div class="row"style="padding:17%">
-            <a href="{% url 'question_suggestion' %}" name=""  id="" class="btn btn-success" role="button" style="border-radius:30px;padding:4%">
+            <a href="{% url 'question_suggestion' %}" name=""  id="" class="btn btn-success rounded-pill" role="button" style="padding:4%;font-size:25px;">
               Suggest a question
                 </a>
           </div>
@@ -205,7 +205,9 @@
       </div>
     </div>
       <!-- end container suggestions --> 
+    
   
+    {% comment %} footer {% endcomment %}
     <div class="" style="height:300px">
 
     </div>

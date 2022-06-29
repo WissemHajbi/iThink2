@@ -23,12 +23,69 @@
         <div class="col rounded" style="background-color:white">
           <form method="POST">
             {% csrf_token %}
+
             <div class="form-row" style="margin-top: 10%">
               <div class="form-group col-md-7">{{ registerForm|crispy }}</div>
             </div>
+            
+            <div class="btn-group mt-5">
+              <input type="radio" class="btn-check" name="gender" id="option1" value="male" autocomplete="off" checked />
+              <label class="btn btn-secondary" for="option1">Male</label>
+            
+              <input type="radio" class="btn-check" name="gender" id="option2" value="female" autocomplete="off" />
+              <label class="btn btn-secondary" for="option2">Female</label>
+            </div>
+
+            <div class="container">
+              <div class="row">
+                <div class="col">
+                  <div class="form-check">
+                    <img src="{% static 'images\avatars\men_avatar_1.png' %}" alt="avatar" width="50" height="50" />
+                    <input class="form-check-input" type="radio" name="profile_picture_number" value="1">
+                  </div>
+                </div>
+                <div class="col">
+                  <div class="form-check">
+                    <img src="{% static 'images\avatars\men_avatar_2.png' %}" alt="avatar" width="50" height="50" />
+                    <input class="form-check-input" type="radio" name="profile_picture_number" value="2">
+                  </div>
+                </div>
+                <div class="col">
+                  <div class="form-check">
+                    <img src="{% static 'images\avatars\men_avatar_3.png' %}" alt="avatar" width="50" height="50" />
+                    <input class="form-check-input" type="radio" name="profile_picture_number" value="3">
+                  </div>
+                </div>
+              </div>
+
+              <div class="row mt-4">
+                <div class="col">
+                  <div class="form-check">
+                    <img src="{% static 'images\avatars\women_avatar_1.png' %}" alt="avatar" width="50" height="50" />
+                    <input class="form-check-input" type="radio" name="profile_picture_number" value="4">
+                  </div>
+                </div>
+                <div class="col">
+                  <div class="form-check">
+                    <img src="{% static 'images\avatars\women_avatar_2.png' %}" alt="avatar" width="50" height="50" />
+                    <input class="form-check-input" type="radio" name="profile_picture_number" value="5">
+                  </div>
+                </div>
+                <div class="col">
+                  <div class="form-check">
+                    <img src="{% static 'images\avatars\women_avatar_3.png' %}" alt="avatar" width="50" height="50" />
+                    <input class="form-check-input" type="radio" name="profile_picture_number" value="6">
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            
+
+
 
             <input
-              class="btn btn-outline-primary mt-3"
+              class="btn btn-outline-primary mt-5"
               type="submit"
               value="Register"
               class="button"

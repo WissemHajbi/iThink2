@@ -6,7 +6,7 @@ urlpatterns = [
     path('', pollslist.as_view(), name="home"), 
     path('poll/<int:pk>', vote, name="poll_vote"),
     path('delete/<int:pk>/<str:filter_button_pressed>', delete, name="poll_delete"),
-    path('profile', profileView.as_view(), name="profile"),
+    path('profile/<str:name>', profileView.as_view(), name="profile"),
     path('login', loginView.as_view(), name="login"),
     path('logout', LogoutView.as_view(next_page='login'), name="logout"),
     path('register', register_view, name="register"),

@@ -2,9 +2,10 @@
 from django.db import models
 from polls.models import user
 from django.urls import reverse
+from django.utils import timezone
 
 
-class questions(models.Model):
+class question(models.Model):
 
     status = (
         ("approved", "approved"),
@@ -15,17 +16,36 @@ class questions(models.Model):
         max_length=11, choices=status, default="disapproved")
 
     question = models.CharField(max_length=200)
+    
+    creator = models.CharField(max_length=30)
 
     def __str__(self):
         return self.question[:150]+"..." if len(self.question) > 150 else self.question
 
     def get_absolute_url(self):
         return reverse("home")
+    
 
 
-class answered(models.Model):
+class question_answered(models.Model):
 
     user = models.ForeignKey(
-        user, on_delete=models.CASCADE, related_name='answered_questions')
-    question = models.ForeignKey(questions, on_delete=models.CASCADE)
+        user, on_delete=models.CASCADE, related_name='answered_question')
+    question = models.ForeignKey(question, on_delete=models.CASCADE)
     answer = models.CharField(max_length=1000)
+
+class question_comment(models.Model):
+
+    user = models.ForeignKey(
+        user, on_delete=models.CASCADE)
+    question = models.ForeignKey(question, on_delete=models.CASCADE)
+    comment_str = models.CharField(max_length=300, default="empty")
+    date = models.DateTimeField(default=timezone.now)
+    edited = models.BooleanField(default=False)
+
+    class Meta:
+        managed = True
+    
+    def __str__(self):
+        question = self.question.question[:100]+"..." if len(self.question.question) > 100 else self.question.question
+        return f"{self.user.username} commented on '' {question} '' "

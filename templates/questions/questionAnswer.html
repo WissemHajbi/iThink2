@@ -11,6 +11,7 @@
       crossorigin="anonymous"
     />
     {% extends "main.html" %}
+    {% load static %}
     <title>{{ questions.pk }}</title>
   </head>
   <body>
@@ -26,6 +27,7 @@
           </div>
         </div> 
         {% endfor %}
+
         <div class="card p-4">
           <div class="card-header font-monospace bg-light p-3 fs-2 text-success mb-4"  >
             {{questions.question}}
@@ -39,12 +41,99 @@
               </div>
            
               <div class="d-grid col-1 mx-auto">
-                <button type="submit" class="btn btn-primary mt-3">Answer</button>
+                <button type="submit" class="btn btn-success mt-3">Answer</button>
               </div>
 
           </form>
         </div>
       </div>
+
+      <!-- comments section -->
+
+      <div class="container" style="margin-top:1%" >
+
+        <div class="card p-4">
+          <form method="POST">
+            {% csrf_token %}
+            <div class="row mb-2">
+
+              <div class="col-10">
+                <input type="text" class="form-control" placeholder="Write a comment !" name="comment" rows="1" ></input>
+              </div>
+              
+              <div class="col" style="">
+                <button type="submit" class="btn btn-primary" name="comment" >Comment</button>
+              </div>
+              
+            </div>
+          </form>
+
+          {% for comment in comments %}
+            <div class="row" style="padding:1%">
+  
+              <div class="card">
+                <div class="card-body">
+                  <div>
+                    <div class="d-flex flex-row align-items-center">
+                      
+                      {% if comment.user.profile_picture_number == "['1']" %}
+                        <img src="{% static 'images\avatars\men_avatar_1.png' %}" alt="avatar" width="50" height="50" />
+                      {% elif comment.user.profile_picture_number == "['2']" %}
+                        <img src="{% static 'images\avatars\men_avatar_2.png' %}" alt="avatar" width="50" height="50" />
+                      {% elif comment.user.profile_picture_number == "['3']" %}
+                        <img src="{% static 'images\avatars\men_avatar_3.png' %}" alt="avatar" width="50" height="50" />
+                      {% elif comment.user.profile_picture_number == "['4']" %}
+                        <img src="{% static 'images\avatars\women_avatar_1.png' %}" alt="avatar" width="50" height="50" />
+                      {% elif comment.user.profile_picture_number == "['5']" %}
+                        <img src="{% static 'images\avatars\women_avatar_2.png' %}" alt="avatar" width="50" height="50" />
+                      {% elif comment.user.profile_picture_number == "['6']" %}
+                        <img src="{% static 'images\avatars\women_avatar_3.png' %}" alt="avatar" width="50" height="50" />
+                      {% endif %}
+
+                      <p class="small mb-0 ms-2 text-primary fw-bold fs-5 lh-1">{{comment.user}} <br> <span style="font-size:11px;color:gray">{{ comment.date }}</span></p>
+                    </div>
+                  </div>
+
+                  <p class="mt-3 ms-3">{{ comment.comment_str }}</p>
+      
+                </div>
+              </div>
+              
+            </div>
+          {% endfor %}
+
+        </div>
+
+      </div>
+
+      <!-- comments section -->
+
+     <!-- show more button -->
+     {% if show_more %}
+     <form method="POST">
+      {% csrf_token %}
+       <div class="container" style="margin-top:1%" >
+         <div class="card p-4">
+           <button type="submit" name="show_more" class="btn btn-primary">Show more</button>
+         </div>
+       </div>
+     </form>
+      {% elif show_less %}
+        <form method="POST">
+        {% csrf_token %}
+          <div class="container" style="margin-top:1%" >
+            <div class="card p-4">
+              <button type="submit" name="show_less" class="btn btn-primary">Show less</button>
+            </div>
+          </div>
+        </form>
+   {% endif %}
+
+      {% comment %} footer {% endcomment %}
+      <div class="" style="height:50px">
+      
+      </div>
+
       {% endblock content %}
       </html>
       

@@ -6,15 +6,33 @@ from django.urls import reverse
 
 class user(models.Model):
 
+    genders = (
+        ('m', 'male'),
+        ('f', 'female'),
+    )   
+    
+    profile_picture_numbers = (
+        ("['1']", '1' ),
+        ("['2']", '2' ),
+        ("['3']", '3' ),
+        ("['4']", '4' ),
+        ("['5']", '5' ),
+        ("['6']", '6' ),
+    )
+
     user = models.OneToOneField(User, on_delete=models.CASCADE, unique=True)
     username = models.CharField(max_length=30)
+    gender = models.CharField(max_length=6, choices=genders)
     started_date = models.DateTimeField(default=timezone.now)
     email = models.EmailField(max_length=255, unique=True)
-    
+    profile_picture_number = models.CharField(max_length=10, choices=profile_picture_numbers)
+
     USERNAME_FIELD = "email"
-    
+
     def __str__(self):
         return self.username
+
+
 class poll(models.Model):
 
     genres = (
@@ -24,15 +42,16 @@ class poll(models.Model):
         ('h', 'health'),
         ('m', 'music'),
     )
-    
+
     status = (
         ('approved', 'approved'),
         ('disapproved', 'disapproved')
     )
 
-    creator = models.CharField(max_length=30 ,default="wissem")
+    creator = models.CharField(max_length=30)
 
-    status = models.CharField(max_length=11, choices=status,default="disapproved")
+    status = models.CharField(
+        max_length=11, choices=status, default="disapproved")
 
     question = models.CharField(max_length=200)
 
@@ -56,30 +75,51 @@ class poll(models.Model):
     answer6 = models.CharField(max_length=200, blank=True, null=True)
     count6 = models.IntegerField(default=0)
 
+    def get_absolute_url(self):
+        return reverse("home")
 
     def __str__(self):
         return self.question[:100]+"..." if len(self.question) > 100 else self.question
 
-    
-    def get_absolute_url(self):
-        return reverse("home")        
-
 
 class voted(models.Model):
 
-    user = models.ForeignKey(user, on_delete=models.CASCADE, related_name='voted_polls')
+    user = models.ForeignKey(
+        user, on_delete=models.CASCADE, related_name='voted_polls')
     poll = models.ForeignKey(poll, on_delete=models.CASCADE)
     choice = models.IntegerField(default=0)
+
     def __str__(self):
-        return f"{user} voted in {poll.id}"
+        poll = self.poll.question[:100] + \
+            "..." if len(self.poll.question) > 100 else self.poll.question
+        return f"{self.user.username} voted in '' {poll} '' "
 
 
 class deleted(models.Model):
 
-    user = models.ForeignKey(user, on_delete=models.CASCADE, related_name="deleted_polls")
+    user = models.ForeignKey(
+        user, on_delete=models.CASCADE, related_name="deleted_polls")
     poll = models.ForeignKey(poll, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f"{user} deleted {poll.id}"
+        poll = self.poll.question[:100] + \
+            "..." if len(self.poll.question) > 100 else self.poll.question
+        return f"{self.user.username} deleted '' {poll} '' "
 
 
+class poll_comment(models.Model):
+
+    user = models.ForeignKey(
+        user, on_delete=models.CASCADE, related_name="comments_polls")
+    poll = models.ForeignKey(poll, on_delete=models.CASCADE)
+    comment_str = models.CharField(max_length=300, default="empty")
+    date = models.DateTimeField(default=timezone.now)
+    edited = models.BooleanField(default=False)
+
+    class Meta:
+        managed = True
+
+    def __str__(self):
+        poll = self.poll.question[:100] + \
+            "..." if len(self.poll.question) > 100 else self.poll.question
+        return f"{self.user.username} commented on '' {poll} '' "

@@ -5,8 +5,8 @@ from django.urls import reverse_lazy, reverse
 from django.views.generic import ListView, CreateView
 from django.contrib.auth.views import LoginView
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .models import poll, deleted, voted, user
-from questions.models import questions, answered
+from .models import poll, deleted, voted, user, poll_comment
+from questions.models import question, question_answered
 from django.contrib.auth.models import User
 from .forms import registerForm
 from django.contrib.auth import login, authenticate
@@ -18,8 +18,8 @@ class pollslist(LoginRequiredMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["questions"] = questions.objects.all()
-        context["answered"] = answered.objects.all()
+        context["questions"] = question.objects.all()
+        context["answered"] = question_answered.objects.all()
         context["polls"] = poll.objects.all()
         context["voted"] = voted.objects.all()
         context["deleted"] = deleted.objects.all()
@@ -34,22 +34,22 @@ class pollslist(LoginRequiredMixin, ListView):
 
         questions_not_wanted_id = []
         for quesitionitem in context["questions"]:
- 
+
             for answereditem in context["answered"]:
                 if quesitionitem.id == answereditem.question.id and answereditem.user.user.id == self.request.user.id:
                     #print(f"{questionitem.question} = {answereditem.user.user.username} = {self.request.user.id}")
                     questions_not_wanted_id.append(quesitionitem.id)
 
             if questionitem.status == "disapproved":
-                #print(questionitem.question)
+                # print(questionitem.question)
                 questions_not_wanted_id.append(questionitem.id)
-                
+
         questions_wanted_id = []
         for id in questions_all_id:
             if id not in questions_not_wanted_id:
                 questions_wanted_id.append(id)
 
-        context["questions"] = questions.objects.filter(
+        context["questions"] = question.objects.filter(
             id__in=questions_wanted_id)
 
         """
@@ -120,9 +120,10 @@ class profileView(LoginRequiredMixin, ListView):
     model = user
     template_name = "profile.html"
 
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["user"] = user.objects.get(user=self.request.user)
+        context["user"] = user.objects.get(username=self.kwargs["name"])
         voted_polls = voted.objects.filter(user=context["user"].id)
         context["voted_polls_number"] = len(voted_polls)
 
@@ -143,12 +144,12 @@ class profileView(LoginRequiredMixin, ListView):
             elif vote.poll.genre == "h":
                 context["health"] += 1
 
-        answered_questions_number = answered.objects.filter(
+        answered_questions_number = question_answered.objects.filter(
             user=context["user"].id)
         context["answered_questions_number"] = len(answered_questions_number)
 
-        #continue here working on sending the poll creator to this class
-        print(self.request.GET.getlist("poll_creator") or [""])
+        # continue here working on sending the poll creator to this class
+        # print(self.request.GET.getlist("poll_creator") or [""])
         return context
 
 
@@ -174,10 +175,14 @@ def register_view(request, *args, **kwargs):
             username = form.cleaned_data.get('username')
             User_object = User.objects.get(username=username)
             email = form.cleaned_data.get('email')
+            user_gender = request.POST.getlist("gender")
+            user_profile_picture_number = request.POST.getlist("profile_picture_number")
             user_object = user.objects.create(
-                user=User_object, username=username, email=email)
+                user=User_object, gender=user_gender, username=username, email=email, profile_picture_number=user_profile_picture_number)
             user_object.save()
+            
             return redirect("login")
+            
     else:
         form = registerForm()
     context['registerForm'] = form
@@ -187,70 +192,127 @@ def register_view(request, *args, **kwargs):
 def vote(request, pk):
     polll = poll.objects.get(id=pk)
 
-    
     if request.method == 'POST':
-        answer = request.POST.getlist("answer") or ('None')
-        if answer != "None":
-            if answer[0] == "answer1":
-                polll.count1 += 1
-                voted_user = user.objects.get(user=request.user)
-                voted_poll = poll.objects.get(id=pk)
-                voted_choice = 1
-                voted_object = voted.objects.create(
-                    user=voted_user, poll=voted_poll, choice=voted_choice)
-                voted_object.save()
-            elif answer[0] == "answer2":
-                polll.count2 += 1
-                voted_user = user.objects.get(user=request.user)
-                voted_poll = poll.objects.get(id=pk)
-                voted_choice = 2
-                voted_object = voted.objects.create(
-                    user=voted_user, poll=voted_poll, choice=voted_choice)
-                voted_object.save()
-            elif answer[0] == "answer3":
-                polll.count3 += 1
-                voted_user = user.objects.get(user=request.user)
-                voted_poll = poll.objects.get(id=pk)
-                voted_choice = 3
-                voted_object = voted.objects.create(
-                    user=voted_user, poll=voted_poll, choice=voted_choice)
-                voted_object.save()
-            elif answer[0] == "answer4":
-                polll.count4 += 1
-                voted_user = user.objects.get(user=request.user)
-                voted_poll = poll.objects.get(id=pk)
-                voted_choice = 4
-                voted_object = voted.objects.create(
-                    user=voted_user, poll=voted_poll, choice=voted_choice)
-                voted_object.save()
-            elif answer[0] == "answer5":
-                polll.count5 += 1
-                voted_user = user.objects.get(user=request.user)
-                voted_poll = poll.objects.get(id=pk)
-                voted_choice = 5
-                voted_object = voted.objects.create(
-                    user=voted_user, poll=voted_poll, choice=voted_choice)
-                voted_object.save()
-            elif answer[0] == "answer6":
-                polll.count6 += 1
-                voted_user = user.objects.get(user=request.user)
-                voted_poll = poll.objects.get(id=pk)
-                voted_choice = 6
-                voted_object = voted.objects.create(
-                    user=voted_user, poll=voted_poll, choice=voted_choice)
-                voted_object.save()
-            else:
-                return reverse("poll_vote", kwargs={
-                    "pk": pk
-                })
 
-            polll.save()
-            return redirect("home")
-        else:
-            messages.success(request, "Please choose an answer !")
+        # this section is for the voting
+
+        if "vote" in request.POST:
+            answer = request.POST.getlist("answer") or ('None')
+            if answer != "None":
+                if answer[0] == "answer1":
+                    polll.count1 += 1
+                    voted_user = user.objects.get(user=request.user)
+                    voted_poll = poll.objects.get(id=pk)
+                    voted_choice = 1
+                    voted_object = voted.objects.create(
+                        user=voted_user, poll=voted_poll, choice=voted_choice)
+                    voted_object.save()
+                elif answer[0] == "answer2":
+                    polll.count2 += 1
+                    voted_user = user.objects.get(user=request.user)
+                    voted_poll = poll.objects.get(id=pk)
+                    voted_choice = 2
+                    voted_object = voted.objects.create(
+                        user=voted_user, poll=voted_poll, choice=voted_choice)
+                    voted_object.save()
+                elif answer[0] == "answer3":
+                    polll.count3 += 1
+                    voted_user = user.objects.get(user=request.user)
+                    voted_poll = poll.objects.get(id=pk)
+                    voted_choice = 3
+                    voted_object = voted.objects.create(
+                        user=voted_user, poll=voted_poll, choice=voted_choice)
+                    voted_object.save()
+                elif answer[0] == "answer4":
+                    polll.count4 += 1
+                    voted_user = user.objects.get(user=request.user)
+                    voted_poll = poll.objects.get(id=pk)
+                    voted_choice = 4
+                    voted_object = voted.objects.create(
+                        user=voted_user, poll=voted_poll, choice=voted_choice)
+                    voted_object.save()
+                elif answer[0] == "answer5":
+                    polll.count5 += 1
+                    voted_user = user.objects.get(user=request.user)
+                    voted_poll = poll.objects.get(id=pk)
+                    voted_choice = 5
+                    voted_object = voted.objects.create(
+                        user=voted_user, poll=voted_poll, choice=voted_choice)
+                    voted_object.save()
+                elif answer[0] == "answer6":
+                    polll.count6 += 1
+                    voted_user = user.objects.get(user=request.user)
+                    voted_poll = poll.objects.get(id=pk)
+                    voted_choice = 6
+                    voted_object = voted.objects.create(
+                        user=voted_user, poll=voted_poll, choice=voted_choice)
+                    voted_object.save()
+                else:
+                    return reverse("poll_vote", kwargs={
+                        "pk": pk
+                    })
+
+                polll.save()
+                return redirect("home")
+            else:
+                messages.success(request, "Please choose an answer !")
+
+        # this section is for commenting
+
+        if "comment" in request.POST:
+            my_comment = request.POST.getlist("comment") or ""
+            if my_comment[0] != "":
+                comment_user = user.objects.get(user=request.user)
+                comment_poll = poll.objects.get(id=pk)
+                comment_object = poll_comment.objects.create(
+                    user=comment_user, poll=comment_poll, comment_str=my_comment[0]
+                )
+                comment_object.save()
+            else:
+                messages.success(request, "please write a comment !")
+
+        # this section is for deleting a comment
+
+        if "delete_comment" in request.POST:
+            print("")
+
+        # this section is for showing more comments
+        
+        if "show_more" in request.POST:
+            context = {
+                'polls': polll
+            }
+            context["comments"] = poll_comment.objects.filter(
+                poll=poll.objects.get(id=pk))
+            context["show_more"] = False
+            context["show_less"] = True
+            
+            return render(request, 'polls/pollVote.html', context)
+        
+        if "show_less" in request.POST:
+            context = {
+                'polls': polll
+            }
+            context["comments"] = poll_comment.objects.filter(
+                poll=poll.objects.get(id=pk))[:3]
+            context["show_more"] = True
+            
+            return render(request, 'polls/pollVote.html', context)
+            
     context = {
         'polls': polll
     }
+
+    comments = poll_comment.objects.filter(
+        poll=poll.objects.get(id=pk))
+               
+    if len(comments) > 3:
+        context["comments"] = comments[:3]
+        context["show_more"] = True
+    else:
+        context["comments"] = comments
+        context["show_more"] = False
+    
     return render(request, 'polls/pollVote.html', context)
 
 
@@ -266,12 +328,12 @@ def delete(request, pk, filter_button_pressed):
 
     return redirect("home")
 
+
 class poll_suggestion(CreateView):
     model = poll
     fields = ["question", "genre", "answer1", "answer2",
               "answer3", "answer4", "answer5", "answer6"]
 
-    def form_valid(self ,form):
+    def form_valid(self, form):
         form.instance.creator = self.request.user
         return super().form_valid(form)
-    
