@@ -28,7 +28,7 @@
     <nav class="navbar navbar-light bg-light">
         <div class="container-fluid">
             <div class="col-md-1">
-                <a class="navbar-brand text-primary ms-5 fs-1" href="{% url 'home' %}" style="font-family:'Lobster',cursive;">IThink</a>
+                <a class="navbar-brand text-primary ms-5 fs-1" href="{% url 'home' "ALL" %}" style="font-family:'Lobster',cursive;">IThink</a>
             </div>
             {% if request.user.is_authenticated %}
                 <div class="col ms-5">

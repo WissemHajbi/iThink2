@@ -3,7 +3,7 @@ from .views import pollslist, profileView, loginView, poll_suggestion,  vote, de
 from django.contrib.auth.views import LogoutView
 
 urlpatterns = [
-    path('', pollslist.as_view(), name="home"), 
+    path('home/<str:filter_button_pressed>', pollslist.as_view(), name="home"), 
     path('poll/<int:pk>', vote, name="poll_vote"),
     path('delete/<int:pk>/<str:filter_button_pressed>', delete, name="poll_delete"),
     path('profile/<str:name>', profileView.as_view(), name="profile"),

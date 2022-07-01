@@ -19,44 +19,44 @@
         <div class="row mb-4 row-cols-auto d-flex justify-content-center">
           <div class="col">
             {% if filter_button_pressed == "ALL" %}
-            <button type="submit" class="btn btn-outline-light text-primary active" value="All" name="filter_button">ALL</button>
+            <a href="{% url "home" "ALL" %}"type="submit" class="btn btn-outline-light text-primary active" value="All" name="filter_button">ALL</a>
             {% else %}
-            <button type="submit" class="btn btn-outline-light" value="All" name="filter_button">ALL</button>
+            <a href="{% url "home" "ALL" %}"type="submit" class="btn btn-outline-light" value="All" name="filter_button">ALL</a>
             {% endif %}
           </div>
           <div class="col">
             {% if filter_button_pressed == "Sports" %}
-            <button type="submit" class="btn btn-outline-warning text-light active" value="Sports" name="filter_button"><i class="bi bi-dribbble"></i></button>
+            <a href="{% url "home" "Sports" %}" type="submit" class="btn btn-outline-warning text-light active" value="Sports" name="filter_button"><i class="bi bi-dribbble"></i></a>
             {% else %}
-            <button type="submit" class="btn btn-outline-light" value="Sports" name="filter_button"><i class="bi bi-dribbble"></i></button>
+            <a href="{% url "home" "Sports" %}" type="submit" class="btn btn-outline-light" value="Sports" name="filter_button"><i class="bi bi-dribbble"></i></a>
             {% endif %}          
           </div>
           <div class="col">
             {% if filter_button_pressed == "Politics" %}
-            <button type="submit" class="btn btn-outline-secondary active" value="Politics" name="filter_button"><i class="bi bi-card-text"></i></button>
+            <a href="{% url "home" "Politics" %}" type="submit" class="btn btn-outline-secondary active" value="Politics" name="filter_button"><i class="bi bi-card-text"></i></a>
             {% else %}
-            <button type="submit" class="btn btn-outline-light" value="Politics" name="filter_button"><i class="bi bi-card-text"></i></button>
+            <a href="{% url "home" "Politics" %}" type="submit" class="btn btn-outline-light" value="Politics" name="filter_button"><i class="bi bi-card-text"></i></a>
             {% endif %}    
           </div>
           <div class="col">
             {% if filter_button_pressed == "Gaming" %}
-            <button type="submit" class="btn btn-outline-danger active" value="Gaming" name="filter_button"><i class="bi bi-controller"></i></button>
+            <a href="{% url "home" "Gaming" %}" type="submit" class="btn btn-outline-danger active" value="Gaming" name="filter_button"><i class="bi bi-controller"></i></a>
             {% else %}
-            <button type="submit" class="btn btn-outline-light" value="Gaming" name="filter_button"><i class="bi bi-controller"></i></button>
+            <a href="{% url "home" "Gaming" %}" type="submit" class="btn btn-outline-light" value="Gaming" name="filter_button"><i class="bi bi-controller"></i></a>
             {% endif %}    
           </div>
           <div class="col">
             {% if filter_button_pressed == "Music" %}
-            <button type="submit" class="btn btn-outline-info text-light active" value="Music" name="filter_button"><i class="bi bi-music-note-beamed"></i></button>
+            <a href="{% url "home" "Music" %}" type="submit" class="btn btn-outline-info text-light active" value="Music" name="filter_button"><i class="bi bi-music-note-beamed"></i></a>
             {% else %}
-            <button type="submit" class="btn btn-outline-light" value="Music" name="filter_button"><i class="bi bi-music-note-beamed"></i></button>
+            <a href="{% url "home" "Music" %}" type="submit" class="btn btn-outline-light" value="Music" name="filter_button"><i class="bi bi-music-note-beamed"></i></a>
             {% endif %}    
           </div>
           <div class="col">
             {% if filter_button_pressed == "Health" %}
-            <button type="submit" class="btn btn-outline-success active" value="Health" name="filter_button"><i class="bi bi-activity"></i></button>
+            <a href="{% url "home" "Health" %}" type="submit" class="btn btn-outline-success active" value="Health" name="filter_button"><i class="bi bi-activity"></i></a>
             {% else %}
-            <button type="submit" class="btn btn-outline-light" value="Health" name="filter_button"><i class="bi bi-activity"></i></button>
+            <a href="{% url "home" "Health" %}" type="submit" class="btn btn-outline-light" value="Health" name="filter_button"><i class="bi bi-activity"></i></a>
             {% endif %}     
           </div>
         </div>
@@ -190,7 +190,7 @@
 
         <div class="col rounded" style="overflow:hidden;margin-left:-13px;background-color:white">
           <div class="row" style="padding:17%;">
-            <a href="{% url 'poll_suggestion' %}" name=""  id="" class="btn btn-primary rounded-pill" role="button" style="padding:4%;font-size:25px;">
+            <a href="{% url "poll_suggestion" %}" name=""  id="" class="btn btn-primary rounded-pill" role="button" style="padding:4%;font-size:25px;">
               Suggest a poll
               </a>
           </div>

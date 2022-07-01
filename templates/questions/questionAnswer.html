@@ -90,7 +90,7 @@
                         <img src="{% static 'images\avatars\women_avatar_3.png' %}" alt="avatar" width="50" height="50" />
                       {% endif %}
 
-                      <p class="small mb-0 ms-2 text-primary fw-bold fs-5 lh-1">{{comment.user}} <br> <span style="font-size:11px;color:gray">{{ comment.date }}</span></p>
+                      <a href="{% url "profile" comment.user %}" class="small mb-0 ms-2 text-primary fw-bold fs-5 lh-1 text-decoration-none">{{comment.user}} <br> <span style="font-size:11px;color:gray">{{ comment.date }}</span></a>
                     </div>
                   </div>
 

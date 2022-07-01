@@ -37,7 +37,7 @@ class pollslist(LoginRequiredMixin, ListView):
 
             for answereditem in context["answered"]:
                 if quesitionitem.id == answereditem.question.id and answereditem.user.user.id == self.request.user.id:
-                    #print(f"{questionitem.question} = {answereditem.user.user.username} = {self.request.user.id}")
+                    # print(f"{questionitem.question} = {answereditem.user.user.username} = {self.request.user.id}")
                     questions_not_wanted_id.append(quesitionitem.id)
 
             if questionitem.status == "disapproved":
@@ -65,12 +65,12 @@ class pollslist(LoginRequiredMixin, ListView):
 
             for deleteditem in context["deleted"]:
                 if pollitem.id == deleteditem.poll.id and deleteditem.user.user.id == self.request.user.id:
-                    #print(f"deleted = {deleteditem.user.username} {deleteditem.user.user.id} {self.request.user.id}")
+                    # print(f"deleted = {deleteditem.user.username} {deleteditem.user.user.id} {self.request.user.id}")
                     polls_not_wanted_id.append(pollitem.id)
 
             for voteditem in context["voted"]:
                 if pollitem.id == voteditem.poll.id and voteditem.user.user.id == self.request.user.id:
-                    #print(f"voted = {voteditem.user.username} {voteditem.user.user.id} {self.request.user.id}")
+                    # print(f"voted = {voteditem.user.username} {voteditem.user.user.id} {self.request.user.id}")
                     polls_not_wanted_id.append(pollitem.id)
 
             if pollitem.status == "disapproved":
@@ -86,7 +86,33 @@ class pollslist(LoginRequiredMixin, ListView):
 
         filter_button = []
 
-        if self.request.method == "GET":
+        if self.kwargs["filter_button_pressed"] == "ALL":
+            context["polls"] = poll.objects.all()
+            context["polls"] = poll.objects.filter(
+                id__in=polls_wanted_id)[:6]
+            context["filter_button_pressed"] = "ALL"
+
+        elif self.kwargs["filter_button_pressed"] == "Sports":
+            context["polls"] = context["polls"].filter(genre="s")[:6]
+            context["filter_button_pressed"] = "Sports"
+
+        elif self.kwargs["filter_button_pressed"] == "Politics":
+            context["polls"] = context["polls"].filter(genre="p")[:6]
+            context["filter_button_pressed"] = "Politics"
+
+        elif self.kwargs["filter_button_pressed"] == "Gaming":
+            context["polls"] = context["polls"].filter(genre="g")[:6]
+            context["filter_button_pressed"] = "Gaming"
+
+        elif self.kwargs["filter_button_pressed"] == "Music":
+            context["polls"] = context["polls"].filter(genre="m")[:6]
+            context["filter_button_pressed"] = "Music"
+
+        elif self.kwargs["filter_button_pressed"] == "Health":
+            context["polls"] = context["polls"].filter(genre="h")[:6]
+            context["filter_button_pressed"] = "Health"
+
+        """ if self.request.method == "GET":
 
             if not filter_button:
                 filter_button = self.request.GET.getlist(
@@ -112,14 +138,13 @@ class pollslist(LoginRequiredMixin, ListView):
                 context["polls"] = poll.objects.filter(
                     id__in=polls_wanted_id)[:6]
                 context["filter_button_pressed"] = "ALL"
-
+         """
         return context
 
 
 class profileView(LoginRequiredMixin, ListView):
     model = user
     template_name = "profile.html"
-
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -176,13 +201,14 @@ def register_view(request, *args, **kwargs):
             User_object = User.objects.get(username=username)
             email = form.cleaned_data.get('email')
             user_gender = request.POST.getlist("gender")
-            user_profile_picture_number = request.POST.getlist("profile_picture_number")
+            user_profile_picture_number = request.POST.getlist(
+                "profile_picture_number")
             user_object = user.objects.create(
                 user=User_object, gender=user_gender, username=username, email=email, profile_picture_number=user_profile_picture_number)
             user_object.save()
-            
+
             return redirect("login")
-            
+
     else:
         form = registerForm()
     context['registerForm'] = form
@@ -253,7 +279,7 @@ def vote(request, pk):
                     })
 
                 polll.save()
-                return redirect("home")
+                return redirect("home", filter_button_pressed="ALL")
             else:
                 messages.success(request, "Please choose an answer !")
 
@@ -277,7 +303,7 @@ def vote(request, pk):
             print("")
 
         # this section is for showing more comments
-        
+
         if "show_more" in request.POST:
             context = {
                 'polls': polll
@@ -286,9 +312,9 @@ def vote(request, pk):
                 poll=poll.objects.get(id=pk))
             context["show_more"] = False
             context["show_less"] = True
-            
+
             return render(request, 'polls/pollVote.html', context)
-        
+
         if "show_less" in request.POST:
             context = {
                 'polls': polll
@@ -296,23 +322,23 @@ def vote(request, pk):
             context["comments"] = poll_comment.objects.filter(
                 poll=poll.objects.get(id=pk))[:3]
             context["show_more"] = True
-            
+
             return render(request, 'polls/pollVote.html', context)
-            
+
     context = {
         'polls': polll
     }
 
     comments = poll_comment.objects.filter(
         poll=poll.objects.get(id=pk))
-               
+
     if len(comments) > 3:
         context["comments"] = comments[:3]
         context["show_more"] = True
     else:
         context["comments"] = comments
         context["show_more"] = False
-    
+
     return render(request, 'polls/pollVote.html', context)
 
 
@@ -326,14 +352,18 @@ def delete(request, pk, filter_button_pressed):
         user=deleted_user, poll=deleted_poll)
     deleted_object.save()
 
-    return redirect("home")
+    return redirect("home", filter_button_pressed=filter_button_pressed)
 
 
 class poll_suggestion(CreateView):
     model = poll
     fields = ["question", "genre", "answer1", "answer2",
               "answer3", "answer4", "answer5", "answer6"]
+    template_name = "polls/pollSuggestion.html"
 
     def form_valid(self, form):
         form.instance.creator = self.request.user
         return super().form_valid(form)
+
+    def get_success_url(self):
+        return redirect("home", filter_button_pressed="ALL")

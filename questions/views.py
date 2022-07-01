@@ -21,7 +21,7 @@ def answer(request, pk):
                     user=answered_user, question=answered_question, answer=useranswer
                 )
                 answered_object.save()
-                return redirect("home")
+                return redirect("home", filter_button_pressed="ALL")
             else:
                 messages.success(request, "Please answer the question !")
                 
@@ -89,6 +89,7 @@ def answer(request, pk):
 class question_suggestion(CreateView):
     model = question
     fields = ["question"]
+    template_name = "questions/questionSuggestion.html"
     
     def form_valid(self, form):
         form.instance.creator = self.request.user

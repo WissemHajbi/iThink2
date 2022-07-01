@@ -1,0 +1,93 @@
+{
+    "polls": [
+        {
+            "genre": "s",
+            "creator": "wissem",
+            "question": "who is the next great player ?",
+            "answer1": "mbappe",
+            "answer2": "pedri",
+            "answer3": "vinicious J",
+            "answer4": "",
+            "answer5": "",
+            "answer6": ""
+        },
+        {
+            "genre": "p",
+            "creator": "wissem",
+            "question": "من تريد ان تصوت له ؟",
+            "answer1": "قيس سعيد",
+            "answer2": "الباجي",
+            "answer3": "عبير موسى",
+            "answer4": "",
+            "answer5": "",
+            "answer6": ""
+        },
+        {
+            "genre": "g",
+            "creator": "wissem",
+            "question": "in which game you have the most hours on ?",
+            "answer1": "league of legends",
+            "answer2": "apex legends",
+            "answer3": "call of duty warzone",
+            "answer4": "fortnite",
+            "answer5": "tekken 7",
+            "answer6": "efootball 2022"
+        },
+        {
+            "genre": "m",
+            "creator": "wissem",
+            "question": "What artist has the most streams on Spotify?",
+            "answer1": "Drake",
+            "answer2": "Eminem",
+            "answer3": "Rihanna",
+            "answer4": "",
+            "answer5": "",
+            "answer6": ""
+        },
+        {
+            "genre": "h",
+            "creator": "wissem",
+            "question": "do you drink coffee ?",
+            "answer1": "yes everyday",
+            "answer2": "sometimes",
+            "answer3": "not at all",
+            "answer4": "",
+            "answer5": "",
+            "answer6": ""
+        },
+        {
+            "genre": "h",
+            "creator": "wissem",
+            "question": "did you skip your leg day ?",
+            "answer1": "yes",
+            "answer2": "no",
+            "answer3": "what is leg day ?",
+            "answer4": "",
+            "answer5": "",
+            "answer6": ""
+        }
+    ],
+
+    "question" : [
+        {
+            "question" : "who do you think will win the next worlds in soccer and why ?",
+            "creator" : "wissem"
+        },
+        {
+            "question" : "how did you first hear about Barack Obama?",
+            "creator" : "wissem"
+        },
+        {
+            "question" : "What's a really popular game everyone seems to love but you don't like?",
+            "creator" : "wissem"
+        },
+        {
+            "question" : "What would life be without music?",
+            "creator" : "wissem"
+        },
+        {
+            "question" : "What is the difference between bacteria and viruses?",
+            "creator" : "wissem"
+        }
+    ]
+}
