@@ -48,7 +48,7 @@ def answer(request, pk):
         
         if "show_more" in request.POST:
             context = {
-                'polls': question
+                'questions': question
             }
             context["comments"] = question_comment.objects.filter(
                 question=question.objects.get(id=pk))
@@ -59,7 +59,7 @@ def answer(request, pk):
         
         if "show_less" in request.POST:
             context = {
-                'polls': question
+                'questions': question
             }
             context["comments"] = question_comment.objects.filter(
                 question=question.objects.get(id=pk))[:3]
@@ -68,7 +68,7 @@ def answer(request, pk):
             return render(request, 'questions/questionAnswer.html', context)
    
     context = {
-        "questions": question
+        "questions": question.objects.get(pk=pk)
     }
     
     comments = question_comment.objects.filter(

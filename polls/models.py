@@ -119,8 +119,8 @@ class poll(models.Model):
 
 
 # lunch this function when you want to make some default question for testing
-a = poll()
-a.make()
+testing_Poll_instance = poll()
+
 
 
 class voted(models.Model):

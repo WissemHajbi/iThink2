@@ -41,7 +41,7 @@ class question(models.Model):
 
 
 # lunch this function when you want to make some default question for testing
-# question.make()
+testing_Poll_instance = question()
 
 
 class question_answered(models.Model):

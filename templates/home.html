@@ -67,11 +67,11 @@
         <div class="row ">
           {% endif %}
         <div class="col p-2 d-flex justify-content-center">
-          <div class="card shadow-lg mb-5 bg-body rounded" style="width:85%;height:auto;">
+          <div class="card shadow-lg mb-5 bg-body rounded" style="width:85% ;height:auto;">
             <div class="card-body">
 
               <!-- delete button -->
-              <a href="{% url 'poll_delete' poll.pk filter_button_pressed %}" class="rounded-circle text-decoration-none float-end text-danger text-opacity-75 fs-5 fw-bold" style="margin-top:-10px;" id="delete_button" name="delete_button">&#215;</a>
+              <a href="{% url 'poll_delete' poll.pk filter_button_pressed %}" id="delete" class="rounded-circle text-decoration-none float-end text-danger text-opacity-75 fs-3 fw-bold" style="margin-top:-10px;" id="delete_button" name="delete_button">&#215;</a>
               
               <a
               href="{% url 'poll_vote' poll.pk %}"
@@ -81,7 +81,7 @@
               <!-- poll image -->
               <img src="{% static 'images\poll.png' %}" class="card-img-top" alt="..." style="background-size:cover;width:45%;margin-left: 30%;">
               
-              <h5 class="card-title h-1" style="text-overflow: ellipsis;">{{ poll.question }}</h5>
+              <h5 class="card-title h-1 pollText" style="text-overflow: ellipsis;">{{ poll.question }}</h5>
               </a>
               {% if poll.genre == "p" %}
               <a
@@ -151,7 +151,7 @@
                   <a href="{% url 'question_answer' question.pk %}" class="text-decoration-none text-dark">
                     <img src="{% static 'images/q&a.png' %}" class="card-img-top" alt="...">
                     <div class="card-body">
-                      <h5 class="card-title h-1 " style="text-overflow: ellipsis;text-align: center;" >{{ question.question }}</h5>
+                      <h5 class="card-title h-1 questionText " style="text-overflow: ellipsis;text-align: center;" >{{ question.question }}</h5>
                     </div>
                   </a>
                 </div>
@@ -211,7 +211,7 @@
     <div class="" style="height:300px">
 
     </div>
-
-{% endblock content %}
+    <script src="{% static "javascript/cleaning.js" %}"></script>
+    {% endblock content %}
 </body>
 </html>

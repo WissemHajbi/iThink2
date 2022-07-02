@@ -11,3 +11,13 @@ body {
   margin-right:30px;  
   border-radius: 10px;
 }
+#title{
+  font-family:'Lobster',cursive;
+}
+
+#delete{
+  opacity:0;
+}
+#delete:hover{
+  opacity:1;
+}

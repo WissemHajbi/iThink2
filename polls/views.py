@@ -10,6 +10,7 @@ from questions.models import question, question_answered
 from django.contrib.auth.models import User
 from .forms import registerForm
 from django.contrib.auth import login, authenticate
+import random
 
 
 class pollslist(LoginRequiredMixin, ListView):
@@ -81,10 +82,14 @@ class pollslist(LoginRequiredMixin, ListView):
         for id in polls_all_id:
             if id not in polls_not_wanted_id:
                 polls_wanted_id.append(id)
+        
+        random.shuffle(polls_wanted_id)
+        
+        polls = poll.objects.filter(id__in=polls_wanted_id)        
+        
+        context["polls"] = polls
 
-        context["polls"] = poll.objects.filter(id__in=polls_wanted_id)
-
-        filter_button = []
+        print(context["polls"])
 
         if self.kwargs["filter_button_pressed"] == "ALL":
             context["polls"] = poll.objects.all()
@@ -112,33 +117,6 @@ class pollslist(LoginRequiredMixin, ListView):
             context["polls"] = context["polls"].filter(genre="h")[:6]
             context["filter_button_pressed"] = "Health"
 
-        """ if self.request.method == "GET":
-
-            if not filter_button:
-                filter_button = self.request.GET.getlist(
-                    "filter_button") or ['']
-
-            if filter_button[0] == "Sports":
-                context["polls"] = context["polls"].filter(genre="s")[:6]
-                context["filter_button_pressed"] = "Sports"
-            elif filter_button[0] == "Politics":
-                context["polls"] = context["polls"].filter(genre="p")[:6]
-                context["filter_button_pressed"] = "Politics"
-            elif filter_button[0] == "Gaming":
-                context["polls"] = context["polls"].filter(genre="g")[:6]
-                context["filter_button_pressed"] = "Gaming"
-            elif filter_button[0] == "Music":
-                context["polls"] = context["polls"].filter(genre="m")[:6]
-                context["filter_button_pressed"] = "Music"
-            elif filter_button[0] == "Health":
-                context["polls"] = context["polls"].filter(genre="h")[:6]
-                context["filter_button_pressed"] = "Health"
-            else:
-                context["polls"] = poll.objects.all()
-                context["polls"] = poll.objects.filter(
-                    id__in=polls_wanted_id)[:6]
-                context["filter_button_pressed"] = "ALL"
-         """
         return context
 
 
