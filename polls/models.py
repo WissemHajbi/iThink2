@@ -28,6 +28,8 @@ class user(models.Model):
     email = models.EmailField(max_length=255, unique=True)
     profile_picture_number = models.CharField(
         max_length=10, choices=profile_picture_numbers)
+    cover_picture_number = models.CharField(
+        max_length=10, default=3)
 
     USERNAME_FIELD = "email"
 
@@ -120,7 +122,6 @@ class poll(models.Model):
 
 # lunch this function when you want to make some default question for testing
 testing_Poll_instance = poll()
-
 
 
 class voted(models.Model):

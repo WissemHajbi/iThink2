@@ -82,14 +82,12 @@ class pollslist(LoginRequiredMixin, ListView):
         for id in polls_all_id:
             if id not in polls_not_wanted_id:
                 polls_wanted_id.append(id)
-        
-        random.shuffle(polls_wanted_id)
-        
-        polls = poll.objects.filter(id__in=polls_wanted_id)        
-        
-        context["polls"] = polls
 
-        print(context["polls"])
+        random.shuffle(polls_wanted_id)
+
+        polls = poll.objects.filter(id__in=polls_wanted_id)
+
+        context["polls"] = polls
 
         if self.kwargs["filter_button_pressed"] == "ALL":
             context["polls"] = poll.objects.all()
@@ -162,7 +160,7 @@ class loginView(LoginView):
     redirect_authenticated_user = True
 
     def get_success_url(self):
-        return reverse_lazy("home")
+        return reverse_lazy("home", kwargs={"filter_button_pressed": "ALL"})
 
 
 def register_view(request, *args, **kwargs):
@@ -181,8 +179,9 @@ def register_view(request, *args, **kwargs):
             user_gender = request.POST.getlist("gender")
             user_profile_picture_number = request.POST.getlist(
                 "profile_picture_number")
+            user_cover_picture_number = random.randint(0, 7)
             user_object = user.objects.create(
-                user=User_object, gender=user_gender, username=username, email=email, profile_picture_number=user_profile_picture_number)
+                user=User_object, gender=user_gender, username=username, email=email, profile_picture_number=user_profile_picture_number, cover_picture_number=user_cover_picture_number)
             user_object.save()
 
             return redirect("login")
