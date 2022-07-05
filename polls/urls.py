@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import pollslist, profileView, loginView, poll_suggestion,  vote, delete, register_view
+from .views import pollslist, profileView, loginView, poll_suggestion,  vote, delete, register_view, delete_comment_poll
 from django.contrib.auth.views import LogoutView
 
 urlpatterns = [
@@ -11,4 +11,5 @@ urlpatterns = [
     path('logout', LogoutView.as_view(next_page='login'), name="logout"),
     path('register', register_view, name="register"),
     path("poll_suggestion", poll_suggestion.as_view(), name="poll_suggestion"),
+    path("delete_comment_poll/<int:id>/<int:pk>", delete_comment_poll, name="delete_comment_poll"),
 ]

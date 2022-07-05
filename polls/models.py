@@ -157,7 +157,8 @@ class poll_comment(models.Model):
     comment_str = models.CharField(max_length=300, default="empty")
     date = models.DateTimeField(default=timezone.now)
     edited = models.BooleanField(default=False)
-
+    
+    # id = models.CharField(max_length=50, default="0")
     class Meta:
         managed = True
 

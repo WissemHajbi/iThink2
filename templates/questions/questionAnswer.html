@@ -92,6 +92,7 @@
 
                       <a href="{% url "profile" comment.user %}" class="small mb-0 ms-2 text-primary fw-bold fs-5 lh-1 text-decoration-none">{{comment.user}} <br> <span style="font-size:11px;color:gray">{{ comment.date }}</span></a>
                     </div>
+                    <a href="{% url "delete_comment_question" comment.id questions.pk %}" id ="delete" type="submit" name="delete_comment" class="float-end text-danger text-opacity-75 fs-5 fw-bold text-decoration-none" style="background-color:white;border:none;margin-top:-56px;margin-right:-10px">&#215;</a>
                   </div>
 
                   <p class="mt-3 ms-3">{{ comment.comment_str }}</p>

@@ -272,12 +272,7 @@ def vote(request, pk):
                 )
                 comment_object.save()
             else:
-                messages.success(request, "please write a comment !")
-
-        # this section is for deleting a comment
-
-        if "delete_comment" in request.POST:
-            print("")
+                messages.success(request, "Please write a comment !")
 
         # this section is for showing more comments
 
@@ -330,6 +325,16 @@ def delete(request, pk, filter_button_pressed):
     deleted_object.save()
 
     return redirect("home", filter_button_pressed=filter_button_pressed)
+
+
+def delete_comment_poll(request, id, pk):
+    deleted_comment = poll_comment.objects.get(id=id)
+    if str(deleted_comment.user) == str(request.user):
+        deleted_comment.delete()
+    else:
+        messages.success(
+            request, "You can't delete another person's comment !")
+    return redirect("poll_vote", pk=pk)
 
 
 class poll_suggestion(CreateView):
