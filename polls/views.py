@@ -310,7 +310,25 @@ def vote(request, pk):
     else:
         context["comments"] = comments
         context["show_more"] = False
+        
+    # this section is searching for the highest voted choice to  highlight it after
 
+    voted_polls = voted.objects.filter(poll=187)
+
+    choices = {
+        "1": 0,
+        "2": 1,
+        "3": 0,
+        "4": 0,
+        "5": 0,
+        "6": 0,
+    }
+
+    for i in voted_polls:
+        choices[str(i.choice)] += 1
+
+    context["max_choice"] = int(max(choices, key=choices.get))
+    
     return render(request, 'polls/pollVote.html', context)
 
 

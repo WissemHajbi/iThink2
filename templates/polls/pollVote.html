@@ -46,8 +46,13 @@
             {% csrf_token %}
             <ul class="list-group list-group-flush fs-5">
               {% if polls.answer1 != None %}
+                {% if max_choice == 1 %}
+              <div class="list-group-item font-monospace d-flex flex-row border-danger">
+                <div class="text-danger" style="width:80%;">
+                {% else %}
               <div class="list-group-item font-monospace d-flex flex-row">
                 <div style="width:80%;">
+                {% endif %}  
                   {{ polls.answer1 }}
                 </div>
                 <div style="width:20%">
@@ -56,8 +61,13 @@
               </div>
               {% endif %}
               {% if polls.answer2 != None %}
+              {% if max_choice == 2 %}
+              <div class="list-group-item font-monospace d-flex flex-row border-danger">
+                <div class="text-danger" style="width:80%;">
+                {% else %}
               <div class="list-group-item font-monospace d-flex flex-row">
                 <div style="width:80%;">
+                {% endif %}
                   {{ polls.answer2 }}
                 </div>
                 <div style="width:20%">
@@ -66,8 +76,13 @@
               </div>
               {% endif %} 
               {% if polls.answer3 != None %}
+              {% if max_choice == 3 %}
+              <div class="list-group-item font-monospace d-flex flex-row border-danger">
+                <div class="text-danger" style="width:80%;">
+                {% else %}
               <div class="list-group-item font-monospace d-flex flex-row">
                 <div style="width:80%;">
+                {% endif %}
                   {{ polls.answer3 }}
                 </div>
                 <div style="width:20%">
@@ -76,8 +91,13 @@
               </div>
               {% endif %} 
               {% if polls.answer4 != None %}
+              {% if max_choice == 4 %}
+              <div class="list-group-item font-monospace d-flex flex-row border-danger">
+                <div class="text-danger" style="width:80%;">
+                {% else %}
               <div class="list-group-item font-monospace d-flex flex-row">
                 <div style="width:80%;">
+                {% endif %}
                   {{ polls.answer4 }}
                 </div>
                 <div style="width:20%">
@@ -86,8 +106,13 @@
               </div>
               {% endif %}
               {% if polls.answer5 != None %}
+              {% if max_choice == 5 %}
+              <div class="list-group-item font-monospace d-flex flex-row border-danger">
+                <div class="text-danger" style="width:80%;">
+                {% else %}
               <div class="list-group-item font-monospace d-flex flex-row">
                 <div style="width:80%;">
+                {% endif %}
                   {{ polls.answer5 }}
                 </div>
                 <div style="width:20%">
@@ -96,8 +121,13 @@
               </div>
               {% endif %}
               {% if polls.answer6 != None %}
+              {% if max_choice == 6 %}
+              <div class="list-group-item font-monospace d-flex flex-row border-danger">
+                <div class="text-danger" style="width:80%;">
+                {% else %}
               <div class="list-group-item font-monospace d-flex flex-row">
                 <div style="width:80%;">
+                {% endif %}
                   {{ polls.answer6 }}
                 </div>
                 <div style="width:20%">
