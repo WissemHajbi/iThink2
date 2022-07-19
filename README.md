@@ -97,4 +97,3 @@ we will be publishing our to-do list publicly here as any sort of help is more t
 6. we are working on a Heroku upload 
 
 Contact me for further discussion :)
-
