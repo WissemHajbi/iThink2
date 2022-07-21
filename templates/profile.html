@@ -1,90 +1,193 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profile</title>
-    {% extends 'main.html' %}
-    {% load static %}
-</head>
-<body>
-    {% block content %}
-    <div class="container bg_light" style="width:77%;margin-top:5%">
-        <div class="card " style="width: 100%;">
-            <div class="col d-flex justify-content-center">
-                <img src="{% static 'images\covers\cover7.jpg' %}" class="card-img-top bg-light" style="height:50vh;width:70%;" alt="...">
-            </div>
-
-            <div class="card-body little-profile text-center">
-
-                <div style="margin-top:-150px">
-
-                  {% if user.profile_picture_number == "['1']" %}
-                    <img src="{% static 'images\avatars\men_avatar_1.png' %}" alt="avatar" width="25%" height="25%" />
-                  {% elif user.profile_picture_number == "['2']" %}
-                    <img src="{% static 'images\avatars\men_avatar_2.png' %}" alt="avatar" width="25%" height="25%" />
-                  {% elif user.profile_picture_number == "['3']" %}
-                    <img src="{% static 'images\avatars\men_avatar_3.png' %}" alt="avatar" width="25%" height="25%" />
-                  {% elif user.profile_picture_number == "['4']" %}
-                    <img src="{% static 'images\avatars\women_avatar_1.png' %}" alt="avatar" width="25%" height="25%" />
-                  {% elif user.profile_picture_number == "['5']" %}
-                    <img src="{% static 'images\avatars\women_avatar_2.png' %}" alt="avatar" width="25%" height="25%" />
-                  {% elif user.profile_picture_number == "['6']" %}
-                    <img src="{% static 'images\avatars\women_avatar_3.png' %}" alt="avatar" width="25%" height="25%" />
-                  {% endif %}
-                  
-                </div>
-
-              </div>
-
-            <div class="card-body ">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Profile</title>
+        {% extends 'main.html' %} {% load static %}
+    </head>
+    <body>
+        {% block content %}
+        <div class="container bg_light" style="width: 77%; margin-top: 3.2%">
+            <div class="card mb-5 " style="width: 100%">
                 <div class="col d-flex justify-content-center">
-                    <h1 class="card-title text-primary">{{ user.username }}</h1>
+                    <img
+                        src="{% static 'images\covers\cover7.jpg' %}"
+                        class="card-img-top bg-light"
+                        style="height: 50vh; width: 70%"
+                        alt="..."
+                    />
                 </div>
-                <div class="col d-flex justify-content-center">
-                    <p class="card-text ">{{ user.started_date }}</p>
+
+                <div class="card-body little-profile text-center">
+                    <div style="margin-top: -150px">
+                        {% if user.profile_picture_number == "['1']" %}
+                        <img
+                            src="{% static 'images\avatars\men_avatar_1.png' %}"
+                            alt="avatar"
+                            width="25%"
+                            height="25%"
+                        />
+                        {% elif user.profile_picture_number == "['2']" %}
+                        <img
+                            src="{% static 'images\avatars\men_avatar_2.png' %}"
+                            alt="avatar"
+                            width="25%"
+                            height="25%"
+                        />
+                        {% elif user.profile_picture_number == "['3']" %}
+                        <img
+                            src="{% static 'images\avatars\men_avatar_3.png' %}"
+                            alt="avatar"
+                            width="25%"
+                            height="25%"
+                        />
+                        {% elif user.profile_picture_number == "['4']" %}
+                        <img
+                            src="{% static 'images\avatars\women_avatar_1.png' %}"
+                            alt="avatar"
+                            width="25%"
+                            height="25%"
+                        />
+                        {% elif user.profile_picture_number == "['5']" %}
+                        <img
+                            src="{% static 'images\avatars\women_avatar_2.png' %}"
+                            alt="avatar"
+                            width="25%"
+                            height="25%"
+                        />
+                        {% elif user.profile_picture_number == "['6']" %}
+                        <img
+                            src="{% static 'images\avatars\women_avatar_3.png' %}"
+                            alt="avatar"
+                            width="25%"
+                            height="25%"
+                        />
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="card-body">
+                    <div class="col d-flex justify-content-center">
+                        <h1 class="card-title text-primary">
+                            {{ user.username }}
+                        </h1>
+                    </div>
+                    <div class="col d-flex justify-content-center">
+                        <p class="card-text">{{ user.started_date }}</p>
+                    </div>
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item d-flex justify-content-center">
+                        <div class="row row-cols-auto fs-3">
+                            <div class="col">
+                                <i class="bi bi-dribbble text-warning"></i>
+                                {{ sports }}
+                            </div>
+                            <div class="col">
+                                <i class="bi bi-card-text text-dark"></i>
+                                {{ politics }}
+                            </div>
+                            <div class="col">
+                                <i class="bi bi-controller text-danger"></i>
+                                {{ gaming }}
+                            </div>
+                            <div class="col">
+                                <i
+                                    class="bi bi-music-note-beamed text-info"
+                                ></i>
+                                {{ music }}
+                            </div>
+                            <div class="col">
+                                <i class="bi bi-activity text-success"></i>
+                                {{ health }}
+                            </div>
+                        </div>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-center">
+                        <div class="row row-cols-auto fs-4">
+                            <div class="col">
+                                <i class="bi bi-question-circle"></i>
+                                {{ answered_questions_number }}
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            {% comment %} owned polls section {% endcomment %}
+
+            {% for poll in owned_polls %}
+    
+            <div class="card mb-3 mt-2 border-primary">
+                <div class="row g-0">
+                    <div class="col-md-2">
+                        <img src="{% static "images/poll.png" %}"
+                        class="img-fluid rounded-start p-3" alt="...">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <a href="{% url 'poll_vote' poll.pk %}" class="card-title text-decoration-none fs-5 fw-bold" >{{ poll.question }}</a>
+                              {% if poll.genre == "p" %}
+                              <h6><span class="badge badge-pill bg-secondary mt-2"><i class="bi bi-card-text"></i> Politics</span></h6>
+                              {% endif %}
+                              {% if poll.genre == "s" %}
+                              <h6><span class="badge badge-pill bg-warning mt-2"><i class="bi bi-dribbble"></i> Sports</span></h6>
+                              {% endif %}
+                              {% if poll.genre == "g" %}
+                              <h6><span class="badge badge-pill bg-danger mt-2"><i class="bi bi-controller"></i> Gaming</i></span></h6>
+                              {% endif %}
+                              {% if poll.genre == "h" %}
+                              <h6><span class="badge badge-pill bg-success mt-2"><i class="bi bi-activity"></i> Health</span></h6>
+                              {% endif %}
+                              {% if poll.genre == "m" %}
+                              <h6><span class="badge badge-pill bg-info mt-2"><i class="bi bi-music-note-beamed"></i> Music</span></h6>
+                              {% endif %}
+                            <p class="card-text">
+                                <small class="text-muted"
+                                    >{{ poll.created_time }}</small
+                                >
+                            </p>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <ul class="list-group list-group-flush">
-              <li class="list-group-item d-flex justify-content-center">
-                <div class="row row-cols-auto fs-3">
-                    <div class="col">
-                        <i class="bi bi-dribbble text-warning"></i>
-                        {{ sports }}
+
+            {% endfor %}
+
+            <div class="" style="height:20px"></div>
+
+            {% comment %} owned questions section {% endcomment %}
+
+            {% for question in owned_questions %}
+    
+            <div class="card mb-3 mt-2 border-success">
+                <div class="row g-0">
+                    <div class="col-md-2">
+                        <img src="{% static "images/q&a.png" %}"
+                        class="img-fluid rounded-start p-3" alt="...">
                     </div>
-                    <div class="col">
-                        <i class="bi bi-card-text text-dark"></i>
-                        {{ politics }}
-                    </div>
-                    <div class="col">
-                        <i class="bi bi-controller text-danger"></i>
-                        {{ gaming }}
-                    </div>
-                    <div class="col">
-                        <i class="bi bi-music-note-beamed text-info"></i>
-                        {{ music }}
-                    </div>
-                    <div class="col">
-                        <i class="bi bi-activity text-success"></i>
-                        {{ health }}
-                    </div>
-                </div>
-              </li>
-              <li class="list-group-item d-flex justify-content-center">
-                <div class="row row-cols-auto fs-4">
-                    <div class="col">
-                        <i class="bi bi-question-circle"></i>
-                        {{ answered_questions_number }}
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <a href="{% url "question_answer" question.pk %}" class="card-title text-decoration-none fs-5 fw-bold text-success" >{{ question.question }}</a>
+                            <p class="card-text mt-2">
+                                <small class="text-muted"
+                                    >{{ question.created_time }}</small
+                                >
+                            </p>
+                        </div>
                     </div>
                 </div>
-              </li>
-            </ul>
-            <div class="card-footer" style="height:5vh">
-              
             </div>
-          </div>
-    </div>
-    {% endblock content %}
-</body>
+
+            {% endfor %}
+
+
+            {% comment %} footer section {% endcomment %}
+            <div class="" style="height:50px"></div>
+
+        </div>
+        {% endblock content %}
+    </body>
 </html>

@@ -78,6 +78,8 @@ class poll(models.Model):
 
     answer6 = models.CharField(max_length=200, blank=True, null=True)
     count6 = models.IntegerField(default=0)
+    
+    created_time = models.DateTimeField(default=timezone.now) 
 
     def get_absolute_url(self):
         return reverse("home")

@@ -34,11 +34,12 @@
             </div>
             <form method="POST">
             {% csrf_token %}
-            <button type="submit" class="btn btn-outline-light" name="poll_creator">
-              <p class="text-secondary" style="font-size: 11px;">
-                from  <a href="{% url "profile" polls.creator  %}" class="text-decoration-none" style="font-size: 14px;" >{{ polls.creator }}</a>
-              </p>
-            </button>
+            <p class="text-secondary" style="font-size: 11px;">
+              {{ polls.created_time }}
+            </p>
+            <p class="text-secondary" style="font-size: 11px;">
+              from  <a href="{% url "profile" polls.creator  %}" class="text-decoration-none" style="font-size: 14px;" >{{ polls.creator }}</a>
+            </p>
             </form>
         </div>
 

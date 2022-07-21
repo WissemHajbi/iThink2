@@ -19,6 +19,8 @@ class question(models.Model):
     question = models.CharField(max_length=200)
 
     creator = models.CharField(max_length=30)
+    
+    created_time = models.DateTimeField(default=timezone.now)
 
     def make():
         with open("Ithink2/databaseSheet.json", "r") as sheet:

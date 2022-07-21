@@ -149,6 +149,10 @@ class profileView(LoginRequiredMixin, ListView):
             user=context["user"].id)
         context["answered_questions_number"] = len(answered_questions_number)
 
+        context["owned_polls"] = poll.objects.filter(creator=self.kwargs["name"])
+        
+        context["owned_questions"] = question.objects.filter(creator=self.kwargs["name"])
+
         # continue here working on sending the poll creator to this class
         # print(self.request.GET.getlist("poll_creator") or [""])
         return context
