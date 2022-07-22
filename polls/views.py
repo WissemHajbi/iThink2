@@ -11,6 +11,7 @@ from django.contrib.auth.models import User
 from .forms import registerForm
 from django.contrib.auth import login, authenticate
 import random
+from django.http import QueryDict
 
 
 class pollslist(LoginRequiredMixin, ListView):
@@ -149,9 +150,11 @@ class profileView(LoginRequiredMixin, ListView):
             user=context["user"].id)
         context["answered_questions_number"] = len(answered_questions_number)
 
-        context["owned_polls"] = poll.objects.filter(creator=self.kwargs["name"])
-        
-        context["owned_questions"] = question.objects.filter(creator=self.kwargs["name"])
+        context["owned_polls"] = poll.objects.filter(
+            creator=self.kwargs["name"])
+
+        context["owned_questions"] = question.objects.filter(
+            creator=self.kwargs["name"])
 
         # continue here working on sending the poll creator to this class
         # print(self.request.GET.getlist("poll_creator") or [""])
@@ -268,7 +271,7 @@ def vote(request, pk):
 
         if "comment" in request.POST:
             my_comment = request.POST.getlist("comment") or ""
-            if my_comment[0] != "":
+            if my_comment != "":
                 comment_user = user.objects.get(user=request.user)
                 comment_poll = poll.objects.get(id=pk)
                 comment_object = poll_comment.objects.create(
@@ -277,6 +280,12 @@ def vote(request, pk):
                 comment_object.save()
             else:
                 messages.success(request, "Please write a comment !")
+
+            # deleting the comment from the QueryDict to not comment again
+            
+            request.POST._mutable = True
+            del request.POST["comment"]
+            request.POST._mutable = False
 
         # this section is for showing more comments
 
@@ -314,7 +323,7 @@ def vote(request, pk):
     else:
         context["comments"] = comments
         context["show_more"] = False
-        
+
     # this section is searching for the highest voted choice to  highlight it after
 
     voted_polls = voted.objects.filter(poll=187)
@@ -332,7 +341,7 @@ def vote(request, pk):
         choices[str(i.choice)] += 1
 
     context["max_choice"] = int(max(choices, key=choices.get))
-    
+
     return render(request, 'polls/pollVote.html', context)
 
 

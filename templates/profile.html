@@ -71,7 +71,7 @@
                 <div class="card-body">
                     <div class="col d-flex justify-content-center">
                         <h1 class="card-title text-primary">
-                            {{ user.username }}
+                            {{ user.username|title }}
                         </h1>
                     </div>
                     <div class="col d-flex justify-content-center">
@@ -128,7 +128,7 @@
                     </div>
                     <div class="col-md-8">
                         <div class="card-body">
-                            <a href="{% url 'poll_vote' poll.pk %}" class="card-title text-decoration-none fs-5 fw-bold" >{{ poll.question }}</a>
+                            <a href="{% url 'poll_vote' poll.pk %}" class="card-title text-decoration-none fs-5 fw-bold" >{{ poll.question|title }}</a>
                               {% if poll.genre == "p" %}
                               <h6><span class="badge badge-pill bg-secondary mt-2"><i class="bi bi-card-text"></i> Politics</span></h6>
                               {% endif %}
@@ -146,7 +146,7 @@
                               {% endif %}
                             <p class="card-text">
                                 <small class="text-muted"
-                                    >{{ poll.created_time }}</small
+                                    >Posted {{ poll.created_time|timesince }} ago</small
                                 >
                             </p>
                         </div>
@@ -170,10 +170,10 @@
                     </div>
                     <div class="col-md-8">
                         <div class="card-body">
-                            <a href="{% url "question_answer" question.pk %}" class="card-title text-decoration-none fs-5 fw-bold text-success" >{{ question.question }}</a>
+                            <a href="{% url "question_answer" question.pk %}" class="card-title text-decoration-none fs-5 fw-bold text-success" >{{ question.question|title }}</a>
                             <p class="card-text mt-2">
                                 <small class="text-muted"
-                                    >{{ question.created_time }}</small
+                                    >Posted {{ question.created_time|timesince }} ago</small
                                 >
                             </p>
                         </div>

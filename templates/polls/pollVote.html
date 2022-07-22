@@ -30,7 +30,7 @@
         <div class="card p-4">
           <div class="font-monospace p-3 fs-2 text-primary" style="background-color:white">
             <div class="" >
-              {{polls.question}}
+              {{polls.question|title}}
             </div>
             <form method="POST">
             {% csrf_token %}
@@ -187,7 +187,7 @@
                         <img src="{% static 'images\avatars\women_avatar_3.png' %}" alt="avatar" width="50" height="50" />
                       {% endif %}
 
-                      <a href="{% url "profile" comment.user %}"class="small mb-0 ms-2 text-primary fw-bold fs-5 lh-1 text-decoration-none">{{comment.user}} <br> <span style="font-size:11px;color:gray;">{{ comment.date }}</span></a>
+                      <a href="{% url "profile" comment.user %}"class="small mb-0 ms-2 text-primary fw-bold fs-5 lh-1 text-decoration-none">{{comment.user|title}} <br> <span style="font-size:11px;color:gray;">{{ comment.date }}</span></a>
                     </div>
                     <a href="{% url "delete_comment_poll" comment.id polls.pk %}" id ="delete" type="submit" name="delete_comment" class="float-end text-danger text-opacity-75 fs-5 fw-bold text-decoration-none" style="background-color:white;border:none;margin-top:-10px;margin-right:-10px">&#215;</a>
                   </div>
