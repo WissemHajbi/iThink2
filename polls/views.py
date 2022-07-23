@@ -11,7 +11,6 @@ from django.contrib.auth.models import User
 from .forms import registerForm
 from django.contrib.auth import login, authenticate
 import random
-from django.http import QueryDict
 
 
 class pollslist(LoginRequiredMixin, ListView):
@@ -179,7 +178,7 @@ def register_view(request, *args, **kwargs):
     if request.method == "POST":
         form = registerForm(request.POST)
         if form.is_valid():
-            form.save()
+            form.save(commit=False)
             username = form.cleaned_data.get('username')
             User_object = User.objects.get(username=username)
             email = form.cleaned_data.get('email')
@@ -282,7 +281,7 @@ def vote(request, pk):
                 messages.success(request, "Please write a comment !")
 
             # deleting the comment from the QueryDict to not comment again
-            
+
             request.POST._mutable = True
             del request.POST["comment"]
             request.POST._mutable = False

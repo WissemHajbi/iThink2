@@ -28,8 +28,3 @@ class registerForm(UserCreationForm):
         except Exception as e:
             return username
         raise forms.ValidationError(f"{username} is already in use.")
-
-class pollForm(forms.ModelForm):
-    class Meta:
-        model = poll
-        fields = "__all__"
