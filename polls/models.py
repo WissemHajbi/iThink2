@@ -49,13 +49,14 @@ class poll(models.Model):
 
     status = (
         ('approved', 'approved'),
+        ('pending', 'pending'),
         ('disapproved', 'disapproved')
     )
 
     creator = models.CharField(max_length=30)
 
     status = models.CharField(
-        max_length=11, choices=status, default="disapproved")
+        max_length=11, choices=status, default="pending")
 
     question = models.CharField(max_length=200)
 
@@ -78,8 +79,8 @@ class poll(models.Model):
 
     answer6 = models.CharField(max_length=200, blank=True, null=True)
     count6 = models.IntegerField(default=0)
-    
-    created_time = models.DateTimeField(default=timezone.now) 
+
+    created_time = models.DateTimeField(default=timezone.now)
 
     def get_absolute_url(self):
         return reverse("home")
@@ -87,31 +88,32 @@ class poll(models.Model):
     def __str__(self):
         return self.question[:100]+"..." if len(self.question) > 100 else self.question
 
-    with open("Ithink2/databaseSheet.json", "r") as sheet:
-        data = json.load(sheet)
+    
 
-    def make(self):
+    def make():
 
+        with open("Ithink2/databaseSheet.json", "r") as sheet:
+            data = json.load(sheet)
         for i in range(6):
             myPoll = poll(
-                genre=self.data["polls"][i]["genre"],
-                creator=self.data["polls"][i]["creator"],
-                question=self.data["polls"][i]["question"],
+                genre=data["polls"][i]["genre"],
+                creator=data["polls"][i]["creator"],
+                question=data["polls"][i]["question"],
                 status="approved",
             )
 
-            if self.data["polls"][i]["answer1"]:
-                myPoll.answer1 = self.data["polls"][i]["answer1"]
-            if self.data["polls"][i]["answer2"]:
-                myPoll.answer2 = self.data["polls"][i]["answer2"]
-            if self.data["polls"][i]["answer3"]:
-                myPoll.answer3 = self.data["polls"][i]["answer3"]
-            if self.data["polls"][i]["answer4"]:
-                myPoll.answer4 = self.data["polls"][i]["answer4"]
-            if self.data["polls"][i]["answer5"]:
-                myPoll.answer5 = self.data["polls"][i]["answer5"]
-            if self.data["polls"][i]["answer6"]:
-                myPoll.answer6 = self.data["polls"][i]["answer6"]
+            if data["polls"][i]["answer1"]:
+                myPoll.answer1 = data["polls"][i]["answer1"]
+            if data["polls"][i]["answer2"]:
+                myPoll.answer2 = data["polls"][i]["answer2"]
+            if data["polls"][i]["answer3"]:
+                myPoll.answer3 = data["polls"][i]["answer3"]
+            if data["polls"][i]["answer4"]:
+                myPoll.answer4 = data["polls"][i]["answer4"]
+            if data["polls"][i]["answer5"]:
+                myPoll.answer5 = data["polls"][i]["answer5"]
+            if data["polls"][i]["answer6"]:
+                myPoll.answer6 = data["polls"][i]["answer6"]
 
             myPoll.save()
 
@@ -121,13 +123,7 @@ class poll(models.Model):
                 poll.objects.filter(
                     question=self.data["polls"][i]["question"]).delete()
 
-
-# lunch this function when you want to make some default question for testing
-testing_Poll_instance = poll()
-
-
 class voted(models.Model):
-
     user = models.ForeignKey(
         user, on_delete=models.CASCADE, related_name='voted_polls')
     poll = models.ForeignKey(poll, on_delete=models.CASCADE)
@@ -159,7 +155,7 @@ class poll_comment(models.Model):
     comment_str = models.CharField(max_length=300, default="empty")
     date = models.DateTimeField(default=timezone.now)
     edited = models.BooleanField(default=False)
-    
+
     # id = models.CharField(max_length=50, default="0")
     class Meta:
         managed = True
@@ -168,3 +164,5 @@ class poll_comment(models.Model):
         poll = self.poll.question[:100] + \
             "..." if len(self.poll.question) > 100 else self.poll.question
         return f"{self.user.username} commented on '' {poll} '' "
+
+

@@ -3,8 +3,9 @@ from django.urls import reverse
 from questions.models import question, question_answered, question_comment
 from polls.models import user
 from django.contrib import messages
-from django.views.generic import CreateView
-
+from django.views.generic import CreateView, ListView
+from django.contrib.auth.mixins import LoginRequiredMixin
+from .models import notification
 
 def answer(request, pk):
 
@@ -105,3 +106,16 @@ class question_suggestion(CreateView):
     def form_valid(self, form):
         form.instance.creator = self.request.user
         return super().form_valid(form)
+    
+    def get_success_url(self):
+        return redirect("home", filter_button_pressed="ALL")
+
+    
+class notificationslist(LoginRequiredMixin, ListView):
+    model = notification
+    template_name = "notification.html"
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["notifications"] = notification.objects.filter(user = self.request.user.id) 
+        return context

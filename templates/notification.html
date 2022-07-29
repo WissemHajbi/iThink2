@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Notifications</title>
+        {% extends 'main.html' %} {% load static %}
+    </head>
+    <body>
+        {% block content %}
+        
+        <div class="container bg_light" style="width: 77%; margin-top: 3.2%">
+
+            {% for notification in notifications %}
+        
+            <div class="card mb-3 mt-2 border-primary">
+                <div class="row g-0">
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            
+                            {% if notification.poll %}
+                                <a href="{% url 'poll_vote' notification.poll %}" class="card-title text-decoration-none fs-5 fw-bold" >{{ notification.notification_text|title }}</a>
+                            {% else %}
+                                <a href="{% url 'question_answer' notification.question %}" class="card-title text-decoration-none fs-5 fw-bold" >{{ notification.notification_text|title }}</a>
+                            {% endif %}
+
+                            <p class="card-text">
+                                <small class="text-muted"
+                                    >Posted {{ notification.notification_date|timesince }} ago</small
+                                >
+                            </p>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {% endfor %}
+        
+        </div>
+
+
+        {% comment %} footer section {% endcomment %}
+        <div class="" style="height:50px"></div>
+
+        {% endblock content %}
+    </body>
+</html>

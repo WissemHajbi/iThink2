@@ -13,6 +13,7 @@ from django.contrib.auth import login, authenticate
 import random
 
 
+    
 class pollslist(LoginRequiredMixin, ListView):
     model = poll
     template_name = "home.html"
