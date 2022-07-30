@@ -171,15 +171,12 @@ class loginView(LoginView):
 
 
 def register_view(request, *args, **kwargs):
-    user_ob = request.user
-    if user_ob.is_authenticated:
-        return HttpResponse(f"you are already athenticated as {user.email}")
-
+    
     context = {}
     if request.method == "POST":
         form = registerForm(request.POST)
         if form.is_valid():
-            form.save(commit=False)
+            form.save()
             username = form.cleaned_data.get('username')
             User_object = User.objects.get(username=username)
             email = form.cleaned_data.get('email')
@@ -201,7 +198,10 @@ def register_view(request, *args, **kwargs):
 
 def vote(request, pk):
     polll = poll.objects.get(id=pk)
-
+    
+    if polll.status in ["disapproved", "pending"] and polll.creator == str(request.user):
+        messages.success(request, f"{polll.status.title()} !")
+    
     if request.method == 'POST':
 
         # this section is for the voting
@@ -376,6 +376,7 @@ class poll_suggestion(CreateView):
 
     def form_valid(self, form):
         form.instance.creator = self.request.user
+        
         return super().form_valid(form)
 
     def get_success_url(self):

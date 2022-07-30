@@ -88,8 +88,6 @@ class poll(models.Model):
     def __str__(self):
         return self.question[:100]+"..." if len(self.question) > 100 else self.question
 
-    
-
     def make():
 
         with open("Ithink2/databaseSheet.json", "r") as sheet:
@@ -122,6 +120,7 @@ class poll(models.Model):
             if poll.objects.filter(question=self.data["polls"][i]["question"]):
                 poll.objects.filter(
                     question=self.data["polls"][i]["question"]).delete()
+ 
 
 class voted(models.Model):
     user = models.ForeignKey(

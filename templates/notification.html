@@ -18,11 +18,26 @@
                 <div class="row g-0">
                     <div class="col-md-8">
                         <div class="card-body">
-                            
-                            {% if notification.poll %}
-                                <a href="{% url 'poll_vote' notification.poll %}" class="card-title text-decoration-none fs-5 fw-bold" >{{ notification.notification_text|title }}</a>
+                            {% if notification.notification_status == not_cleared %}
+                                {% if notification.poll %}
+                                    <p class="card-title fs-5 fw-bold text-primary">
+                                        <a href="{% url 'poll_vote' notification.poll %}">
+                                            {{ notification.notification_text|title }}
+                                        </a>    
+                                    </p>
+                                {% else %}
+                                    <p class="card-title fs-5 fw-bold text-primary" >
+                                        <a href="{% url 'question_answer' notification.question %}" >
+                                            {{ notification.notification_text|title }}
+                                        </a> 
+                                    </p>
+                                {% endif %}
                             {% else %}
-                                <a href="{% url 'question_answer' notification.question %}" class="card-title text-decoration-none fs-5 fw-bold" >{{ notification.notification_text|title }}</a>
+                                {% if notification.poll %}
+                                    <a href="{% url 'poll_vote' notification.poll %}" class="card-title text-decoration-none fs-5 fw-bold text-dark " >{{ notification.notification_text|title }}</a>
+                                {% else %}
+                                    <a href="{% url 'question_answer' notification.question %}" class="card-title text-decoration-none fs-5 fw-bold " >{{ notification.notification_text|title }}</a>
+                                {% endif %}
                             {% endif %}
 
                             <p class="card-text">
@@ -30,7 +45,7 @@
                                     >Posted {{ notification.notification_date|timesince }} ago</small
                                 >
                             </p>
-                            
+
                         </div>
                     </div>
                 </div>

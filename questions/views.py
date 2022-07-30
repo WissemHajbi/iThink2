@@ -8,6 +8,10 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import notification
 
 def answer(request, pk):
+    questionn = question.objects.get(id=pk)
+
+    if questionn.status in ["disapproved", "pending"] and questionn.creator == str(request.user):
+        messages.success(request, f"{questionn.status.title()} !")
 
     if request.method == 'POST':
 
@@ -17,7 +21,7 @@ def answer(request, pk):
             useranswer = request.POST["answer"] or "None"
             if useranswer != "None":
                 answered_user = user.objects.get(user=request.user)
-                answered_question = question.objects.get(id=pk)
+                answered_question = questionn
                 answered_object = question_answered.objects.create(
                     user=answered_user, question=answered_question, answer=useranswer
                 )
@@ -108,7 +112,7 @@ class question_suggestion(CreateView):
         return super().form_valid(form)
     
     def get_success_url(self):
-        return redirect("home", filter_button_pressed="ALL")
+        return redirect("question_answer", pk=0)
 
     
 class notificationslist(LoginRequiredMixin, ListView):
