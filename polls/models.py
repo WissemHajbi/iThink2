@@ -60,7 +60,7 @@ class poll(models.Model):
 
     question = models.CharField(max_length=200)
 
-    genre = models.CharField(max_length=10, choices=genres, default="")
+    genre = models.CharField(max_length=10, choices=genres)
 
     answer1 = models.CharField(max_length=200, blank=True, null=True)
     count1 = models.IntegerField(default=0)
@@ -82,9 +82,6 @@ class poll(models.Model):
 
     created_time = models.DateTimeField(default=timezone.now)
 
-    def get_absolute_url(self):
-        return reverse("home")
-
     def __str__(self):
         return self.question[:100]+"..." if len(self.question) > 100 else self.question
 
@@ -99,7 +96,6 @@ class poll(models.Model):
                 question=data["polls"][i]["question"],
                 status="approved",
             )
-
             if data["polls"][i]["answer1"]:
                 myPoll.answer1 = data["polls"][i]["answer1"]
             if data["polls"][i]["answer2"]:
@@ -112,9 +108,9 @@ class poll(models.Model):
                 myPoll.answer5 = data["polls"][i]["answer5"]
             if data["polls"][i]["answer6"]:
                 myPoll.answer6 = data["polls"][i]["answer6"]
-
+                
             myPoll.save()
-
+            
     def delete(self):
         for i in range(6):
             if poll.objects.filter(question=self.data["polls"][i]["question"]):

@@ -13,7 +13,6 @@ from django.contrib.auth import login, authenticate
 import random
 
 
-    
 class pollslist(LoginRequiredMixin, ListView):
     model = poll
     template_name = "home.html"
@@ -171,7 +170,7 @@ class loginView(LoginView):
 
 
 def register_view(request, *args, **kwargs):
-    
+
     context = {}
     if request.method == "POST":
         form = registerForm(request.POST)
@@ -198,10 +197,10 @@ def register_view(request, *args, **kwargs):
 
 def vote(request, pk):
     polll = poll.objects.get(id=pk)
-    
+
     if polll.status in ["disapproved", "pending"] and polll.creator == str(request.user):
         messages.success(request, f"{polll.status.title()} !")
-    
+
     if request.method == 'POST':
 
         # this section is for the voting
@@ -348,6 +347,15 @@ def vote(request, pk):
 def delete(request, pk, filter_button_pressed):
 
     # filter_button_pressed to return at the same filtred button before the delete
+    
+    user_object = poll.objects.create(
+        question="question",
+        creator="wissem",
+        answer1="answer1",
+        answer2="answer2",
+        genre="p",
+        status="approved")
+    user_object.save()
 
     deleted_user = user.objects.get(user=request.user)
     deleted_poll = poll.objects.get(id=pk)
@@ -370,13 +378,12 @@ def delete_comment_poll(request, id, pk):
 
 class poll_suggestion(CreateView):
     model = poll
-    fields = ["question", "genre", "answer1", "answer2",
-              "answer3", "answer4", "answer5", "answer6"]
+    fields = ["question", "genre",
+              "answer1", "answer2", "answer3", "answer4", "answer5", "answer6"]
     template_name = "polls/pollSuggestion.html"
 
     def form_valid(self, form):
         form.instance.creator = self.request.user
-        
         return super().form_valid(form)
 
     def get_success_url(self):

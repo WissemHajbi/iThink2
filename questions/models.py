@@ -25,7 +25,8 @@ class question(models.Model):
 
     created_time = models.DateTimeField(default=timezone.now)
 
-    def make(self):
+    def make():
+        
         with open("Ithink2/databaseSheet.json", "r") as sheet:
             data = json.load(sheet)
 
@@ -99,36 +100,45 @@ class notification(models.Model):
 
 @receiver(pre_save, sender=poll)
 def change_status(sender, instance,  **kwargs):
-    if sender.objects.get(id=instance.id).status != instance.status:
-        if instance.status == "approved":
-            notif = notification.objects.create(
-                notification_text="your poll has been approved",
-                poll = instance.id,
-                user = user.objects.get(username=instance.creator)
-            )
+    try:
+        if sender.objects.get(id=instance.id).status != instance.status:
+            if instance.status == "approved":
+                notif = notification.objects.create(
+                    notification_text="your poll has been approved",
+                    poll = instance.id,
+                    user = user.objects.get(username=instance.creator)
+                )
+                notif.save()
+            elif instance.status == "disapproved":
+                notif = notification.objects.create(
+                    notification_text="your poll has been disapproved, you may want to check it",
+                    poll = instance.id,
+                    user = user.objects.get(username=instance.creator)
+                )
             notif.save()
-        elif instance.status == "disapproved":
-            notif = notification.objects.create(
-                notification_text="your poll has been disapproved, you may want to check it",
-                poll = instance.id,
-                user = user.objects.get(username=instance.creator)
-            )
-            notif.save()
+    except Exception as e:
+        # if the object is still not created 
+        print("cheeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeed")
+        print(e)
 
 @receiver(pre_save, sender=question)
 def change_status(sender, instance,  **kwargs):
-    if sender.objects.get(id=instance.id).status != instance.status:
-        if instance.status == "approved":
-            notif = notification.objects.create(
-                notification_text="your question has been approved",
-                question = instance.id,
-                user = user.objects.get(username=instance.creator)
-            )
+    try:   
+        if sender.objects.get(id=instance.id).status != instance.status:
+            if instance.status == "approved":
+                notif = notification.objects.create(
+                    notification_text="your question has been approved",
+                    question = instance.id,
+                    user = user.objects.get(username=instance.creator)
+                )
+                notif.save()
+            elif instance.status == "disapproved":
+                    notif = notification.objects.create(
+                        notification_text="your question has been disapproved, you may want to check it",
+                        question = instance.id,
+                        user = user.objects.get(username=instance.creator)
+                    )
             notif.save()
-        elif instance.status == "disapproved":
-            notif = notification.objects.create(
-                notification_text="your question has been disapproved, you may want to check it",
-                question = instance.id,
-                user = user.objects.get(username=instance.creator)
-            )
-            notif.save()
+    except Exception as e:
+        # if the object is still not created 
+        pass
