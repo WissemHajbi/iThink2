@@ -11,46 +11,139 @@
         {% block content %}
         
         <div class="container bg_light" style="width: 77%; margin-top: 3.2%">
+        
+            <form method="GET">
+                {% csrf_token %}
+                <div class="row">
+                    <div>
+                        <button type="submit" class="btn btn-primary" style="width:10%" name="clear_all" >Clear all</button>
+                    </div>
+                </div>
+            <form>
 
             {% for notification in notifications %}
         
-            <div class="card mb-3 mt-2 border-primary">
-                <div class="row g-0">
-                    <div class="col-md-8">
-                        <div class="card-body">
-                            {% if notification.notification_status == not_cleared %}
-                                {% if notification.poll %}
-                                    <p class="card-title fs-5 fw-bold text-primary">
-                                        <a href="{% url 'poll_vote' notification.poll %}">
-                                            {{ notification.notification_text|title }}
-                                        </a>    
-                                    </p>
-                                {% else %}
-                                    <p class="card-title fs-5 fw-bold text-primary" >
-                                        <a href="{% url 'question_answer' notification.question %}" >
-                                            {{ notification.notification_text|title }}
-                                        </a> 
-                                    </p>
-                                {% endif %}
-                            {% else %}
-                                {% if notification.poll %}
-                                    <a href="{% url 'poll_vote' notification.poll %}" class="card-title text-decoration-none fs-5 fw-bold text-dark " >{{ notification.notification_text|title }}</a>
-                                {% else %}
-                                    <a href="{% url 'question_answer' notification.question %}" class="card-title text-decoration-none fs-5 fw-bold " >{{ notification.notification_text|title }}</a>
-                                {% endif %}
-                            {% endif %}
+            {% comment %} not_cleared {% endcomment %}
+            {% if notification.notification_status == "not_cleared" %}
+                <div class="card mb-3 mt-2 border-primary">
+                    <div class="row g-0 ">
+                        <div class="col-md-8 ">
+                            <div class="card-body ">
 
+                                {% comment %} poll not_cleared {% endcomment %}
+                                {% if notification.poll %}
+
+                                    {% comment %} poll not_cleared approved {% endcomment %}
+                                    {% if notification.feeling == "approved" %}
+                                        <p class="card-title fs-5 fw-bold">
+                                            <a href="{% url 'poll_vote' notification.poll %}" class="text-decoration-none">
+                                                <i class="bi bi-balloon-heart"></i>
+                                                {{ notification.notification_text|title }}
+                                            </a>    
+                                        </p>
+
+                                    {% comment %} poll not_cleared not appreoved {% endcomment %}
+                                    {% else %}
+                                        <p class="card-title fs-5 fw-bold text-dark">
+                                            <a href="{% url 'poll_vote' notification.poll %}" class="text-decoration-none">
+                                                {{ notification.notification_text|title }}
+                                            </a>    
+                                        </p>
+                                    {% endif %}
+
+                                {% else %}
+                                    
+                                    {% comment %} comment not_cleared approved {% endcomment %}
+                                    {% if notification.feeling == "approved" %}
+                                        <p class="card-title fs-5 fw-bold text-primary" >
+                                            <a href="{% url 'question_answer' notification.question %}" class="text-decoration-none">
+                                                <i class="bi bi-balloon-heart"></i>
+                                                {{ notification.notification_text|title }}
+                                            </a> 
+                                        </p>
+
+                                    {% comment %} comment not_cleared not appreoved {% endcomment %}
+                                    {% else %}
+                                        <p class="card-title fs-5 fw-bold text-dark">
+                                            <a href="{% url 'question_answer' notification.question %}" class="text-decoration-none">
+                                                {{ notification.notification_text|title }}
+                                            </a>    
+                                        </p>
+                                    {% endif %}
+
+                                {% endif %}
+
+                                <p class="card-text">
+                                    <small class="text-muted"
+                                        >Posted {{ notification.notification_date|timesince }} ago</small
+                                    >
+                                </p>
+    
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            {% comment %} cleared {% endcomment %}
+            {% else %}
+                <div class="card mb-3 mt-2 border-dark">
+                    <div class="row g-0 ">
+                        <div class="col-md-8 ">
+                            <div class="card-body ">
+
+                                {% comment %} poll cleared {% endcomment %}
+                                {% if notification.poll %}
+
+                                    {% comment %} poll cleared approved {% endcomment %}
+                                    {% if notification.feeling == "approved" %}
+                                        <p class="card-title fs-5 fw-bold">
+                                            <a href="{% url 'poll_vote' notification.poll %}" class="text-decoration-none text-dark">
+                                                <i class="bi bi-balloon-heart"></i>
+                                                {{ notification.notification_text|title }}
+                                            </a>    
+                                        </p>
+
+                                    {% comment %} poll cleared not appreoved {% endcomment %}
+                                    {% else %}
+                                        <p class="card-title fs-5 fw-bold text-dark">
+                                            <a href="{% url 'poll_vote' notification.poll %}" class="text-decoration-none text-dark">
+                                                {{ notification.notification_text|title }}
+                                            </a>    
+                                        </p>
+                                    {% endif %}
+                                
+                                    {% else %}
+                                    
+                                    {% comment %} comment not_cleared approved {% endcomment %}
+                                    {% if notification.feeling == "approved" %}
+                                        <p class="card-title fs-5 fw-bold text-primary" >
+                                            <a href="{% url 'question_answer' notification.question %}" class="text-decoration-none text-dark">
+                                                <i class="bi bi-balloon-heart"></i>
+                                                {{ notification.notification_text|title }}
+                                            </a> 
+                                        </p>
+
+                                    {% comment %} comment not_cleared not appreoved {% endcomment %}
+                                    {% else %}
+                                        <p class="card-title fs-5 fw-bold text-dark">
+                                            <a href="{% url 'question_answer' notification.question %}" class="text-decoration-none text-dark">
+                                                {{ notification.notification_text|title }}
+                                            </a>    
+                                        </p>
+                                    {% endif %}
+
+                                {% endif %}
                             <p class="card-text">
                                 <small class="text-muted"
                                     >Posted {{ notification.notification_date|timesince }} ago</small
                                 >
                             </p>
 
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-
+            {% endif %}
             {% endfor %}
         
         </div>

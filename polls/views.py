@@ -41,7 +41,7 @@ class pollslist(LoginRequiredMixin, ListView):
                     # print(f"{questionitem.question} = {answereditem.user.user.username} = {self.request.user.id}")
                     questions_not_wanted_id.append(quesitionitem.id)
 
-            if questionitem.status == "disapproved":
+            if questionitem.status == "disapproved" or questionitem.status == "pending":
                 # print(questionitem.question)
                 questions_not_wanted_id.append(questionitem.id)
 
@@ -74,7 +74,7 @@ class pollslist(LoginRequiredMixin, ListView):
                     # print(f"voted = {voteditem.user.username} {voteditem.user.user.id} {self.request.user.id}")
                     polls_not_wanted_id.append(pollitem.id)
 
-            if pollitem.status == "disapproved":
+            if pollitem.status in ["disapproved", "pending"]:
                 # print(pollitem.question)
                 polls_not_wanted_id.append(pollitem.id)
 
@@ -155,8 +155,6 @@ class profileView(LoginRequiredMixin, ListView):
         context["owned_questions"] = question.objects.filter(
             creator=self.kwargs["name"])
 
-        # continue here working on sending the poll creator to this class
-        # print(self.request.GET.getlist("poll_creator") or [""])
         return context
 
 
@@ -329,7 +327,7 @@ def vote(request, pk):
 
     choices = {
         "1": 0,
-        "2": 1,
+        "2": 0,
         "3": 0,
         "4": 0,
         "5": 0,
@@ -347,15 +345,6 @@ def vote(request, pk):
 def delete(request, pk, filter_button_pressed):
 
     # filter_button_pressed to return at the same filtred button before the delete
-    
-    user_object = poll.objects.create(
-        question="question",
-        creator="wissem",
-        answer1="answer1",
-        answer2="answer2",
-        genre="p",
-        status="approved")
-    user_object.save()
 
     deleted_user = user.objects.get(user=request.user)
     deleted_poll = poll.objects.get(id=pk)
@@ -387,4 +376,5 @@ class poll_suggestion(CreateView):
         return super().form_valid(form)
 
     def get_success_url(self):
-        return redirect("home", filter_button_pressed="ALL")
+        return reverse("home", kwargs={
+            "filter_button_pressed": "ALL"})

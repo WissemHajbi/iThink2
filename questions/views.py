@@ -7,6 +7,7 @@ from django.views.generic import CreateView, ListView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import notification
 
+
 def answer(request, pk):
     questionn = question.objects.get(id=pk)
 
@@ -102,6 +103,35 @@ def delete_comment_question(request, id, pk):
     return redirect("question_answer", pk=pk)
 
 
+class notificationslist(LoginRequiredMixin, ListView):
+    model = notification
+    template_name = "notification.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["notifications"] = notification.objects.filter(
+            user=self.request.user.id).order_by("-notification_date")
+        
+        for i in range(len(context["notifications"])):
+            if "approved" in context["notifications"][i].notification_text:
+                context["notifications"][i].feeling = "approved"
+        
+        
+        if self.request.method == 'GET':
+            if "clear_all" in self.request.GET:
+                context["my_notifications"] = notification.objects.filter(
+                    user=self.request.user.id
+                )
+                for notif in context["my_notifications"]:
+                    notif.notification_status = "cleared"
+        
+        
+        return context
+    
+    def get_success_url(self):
+        return reverse("home", kwargs={
+            "filter_button_pressed": "ALL"})
+
 class question_suggestion(CreateView):
     model = question
     fields = ["question"]
@@ -110,16 +140,7 @@ class question_suggestion(CreateView):
     def form_valid(self, form):
         form.instance.creator = self.request.user
         return super().form_valid(form)
-    
-    def get_success_url(self):
-        return redirect("question_answer", pk=0)
 
-    
-class notificationslist(LoginRequiredMixin, ListView):
-    model = notification
-    template_name = "notification.html"
-    
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["notifications"] = notification.objects.filter(user = self.request.user.id) 
-        return context
+    def get_success_url(self):
+        return reverse("home", kwargs={
+            "filter_button_pressed": "ALL"})

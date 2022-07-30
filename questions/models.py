@@ -118,7 +118,6 @@ def change_status(sender, instance,  **kwargs):
             notif.save()
     except Exception as e:
         # if the object is still not created 
-        print("cheeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeed")
         print(e)
 
 @receiver(pre_save, sender=question)
