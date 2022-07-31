@@ -17,6 +17,9 @@
   <body>
     {% block content %}
       <div class="container">
+
+        {% comment %} messages {% endcomment %}
+
         {% for msg in messages %}
         <div class="alert alert-danger d-flex align-items-center" role="alert">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-exclamation-triangle-fill flex-shrink-0 me-2" viewBox="0 0 16 16" role="img" aria-label="Warning:">
@@ -27,16 +30,20 @@
           </div>
         </div> 
         {% endfor %}
+
         <div class="card p-4">
           <div class="font-monospace p-3 fs-2 text-primary" style="background-color:white">
             <div class="" >
               {{polls.question|title}}
             </div>
+
             <form method="POST">
             {% csrf_token %}
+
             <p class="text-secondary" style="font-size: 11px;">
               {{ polls.created_time }}
             </p>
+            
             <p class="text-secondary" style="font-size: 11px;">
               from  <a href="{% url "profile" polls.creator  %}" class="text-decoration-none" style="font-size: 14px;" >{{ polls.creator }}</a>
             </p>
@@ -150,7 +157,7 @@
       <div class="container" style="margin-top:1%" >
 
         <div class="card p-4">
-          <form method="GET">
+          <form method="POST">
             {% csrf_token %}
             <div class="row mb-2">
 

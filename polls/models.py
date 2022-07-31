@@ -27,8 +27,7 @@ class user(models.Model):
     email = models.EmailField(max_length=255, unique=True)
     profile_picture_number = models.CharField(
         max_length=10, choices=profile_picture_numbers)
-    cover_picture_number = models.CharField(
-        max_length=10, default=3)
+    cover_picture_number = models.IntegerField(default=3)
 
     USERNAME_FIELD = "email"
 

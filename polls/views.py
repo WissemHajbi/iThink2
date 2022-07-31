@@ -267,7 +267,7 @@ def vote(request, pk):
         # this section is for commenting
 
         if "comment" in request.POST:
-            my_comment = request.POST.getlist("comment") or ""
+            my_comment = request.POST.getlist("comment")
             if my_comment != "":
                 comment_user = user.objects.get(user=request.user)
                 comment_poll = poll.objects.get(id=pk)

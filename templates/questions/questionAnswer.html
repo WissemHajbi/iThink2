@@ -17,6 +17,9 @@
   <body>
     {% block content %}
       <div class="container">
+
+        {% comment %} messages {% endcomment %}
+
         {% for msg in messages %}
         <div class="alert alert-danger d-flex align-items-center" role="alert">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-exclamation-triangle-fill flex-shrink-0 me-2" viewBox="0 0 16 16" role="img" aria-label="Warning:">
@@ -29,10 +32,23 @@
         {% endfor %}
 
         <div class="card p-4">
-          <div class="card-header font-monospace bg-light p-3 fs-2 text-success mb-4"  >
+          <div class="font-monospace p-3 fs-2 text-success" style="background-color:white">
+          <div>
             {{questions.question|title}}
           </div>
 
+          <form method="POST">
+            {% csrf_token %}
+
+            <p class="text-secondary" style="font-size: 11px;">
+              {{ questions.created_time }}
+            </p>
+            
+            <p class="text-secondary" style="font-size: 11px;">
+              from  <a href="{% url "profile" questions.creator  %}" class="text-decoration-none text-success" style="font-size: 14px;" >{{ questions.creator }}</a>
+            </p>
+          </form>
+        
           <form method="POST">
             {% csrf_token %}
 

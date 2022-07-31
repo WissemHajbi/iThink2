@@ -12,12 +12,56 @@
         <div class="container bg_light" style="width: 77%; margin-top: 3.2%">
             <div class="card mb-5 " style="width: 100%">
                 <div class="col d-flex justify-content-center">
+                {% if user.cover_picture_number == 1 %}
+                    <img
+                        src="{% static 'images\covers\cover1.jpg' %}"
+                        class="card-img-top bg-light"
+                        style="height: 50vh; width: 70%"
+                        alt="..."
+                        />
+                {% elif user.cover_picture_number == 2 %}
+                    <img
+                        src="{% static 'images\covers\cover2.jpg' %}"
+                        class="card-img-top bg-light"
+                        style="height: 50vh; width: 70%"
+                        alt="..."
+                        />
+                {% elif user.cover_picture_number == 3 %}
+                    <img
+                        src="{% static 'images\covers\cover3.jpg' %}"
+                        class="card-img-top bg-light"
+                        style="height: 50vh; width: 70%"
+                        alt="..."
+                        />
+                {% elif user.cover_picture_number == 4 %}
+                    <img
+                        src="{% static 'images\covers\cover4.jpg' %}"
+                        class="card-img-top bg-light"
+                        style="height: 50vh; width: 70%"
+                        alt="..."
+                        />
+                {% elif user.cover_picture_number == 5 %}
+                    <img
+                        src="{% static 'images\covers\cover5.jpg' %}"
+                        class="card-img-top bg-light"
+                        style="height: 50vh; width: 70%"
+                        alt="..."
+                        />
+                {% elif user.cover_picture_number == 6 %}
+                    <img
+                        src="{% static 'images\covers\cover6.jpg' %}"
+                        class="card-img-top bg-light"
+                        style="height: 50vh; width: 70%"
+                        alt="..."
+                        />
+                {% elif user.cover_picture_number == 7 %}
                     <img
                         src="{% static 'images\covers\cover7.jpg' %}"
                         class="card-img-top bg-light"
                         style="height: 50vh; width: 70%"
                         alt="..."
-                    />
+                        />
+                {% endif %}
                 </div>
 
                 <div class="card-body little-profile text-center">

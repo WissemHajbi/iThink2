@@ -17,7 +17,7 @@ class question(models.Model):
     )
 
     status = models.CharField(
-        max_length=11, choices=status, default="disapproved")
+        max_length=11, choices=status, default="pending")
 
     question = models.CharField(max_length=200)
 
@@ -44,11 +44,6 @@ class question(models.Model):
 
     def get_absolute_url(self):
         return reverse("home")
-
-
-# lunch this function when you want to make some default question for testing
-testing_Poll_instance = question()
-
 
 class question_answered(models.Model):
 
