@@ -33,22 +33,32 @@
 
         <div class="card p-4">
           <div class="font-monospace p-3 fs-2 text-success" style="background-color:white">
-          <div>
-            {{questions.question|title}}
-          </div>
+            <div class="row">
+              <div class="col-md-10" >
+                <div>
+                {{questions.question|title}}
+                </div>
 
-          <form method="POST">
-            {% csrf_token %}
+                <p class="text-secondary" style="font-size: 11px;">
+                  {{ questions.created_time }}
+                </p>
+                
+                <p class="text-secondary" style="font-size: 11px;">
+                  from  <a href="{% url "profile" questions.creator  %}" class="text-decoration-none text-success" style="font-size: 14px;" >{{ questions.creator }}</a>
+                </p>
+              </div>
 
-            <p class="text-secondary" style="font-size: 11px;">
-              {{ questions.created_time }}
-            </p>
-            
-            <p class="text-secondary" style="font-size: 11px;">
-              from  <a href="{% url "profile" questions.creator  %}" class="text-decoration-none text-success" style="font-size: 14px;" >{{ questions.creator }}</a>
-            </p>
-          </form>
-        
+              <div class="col" >
+                {% if request.user.groups.get %} 
+                  {% if questions.status == "approved" or questions.status == "pending" %} 
+                    <form method="POST">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger float-end" name="disapprove" >Disapprove</button>
+                    <form>
+                  {% endif %}
+                {% endif %}  
+              </div>
+            </div>
           <form method="POST">
             {% csrf_token %}
 

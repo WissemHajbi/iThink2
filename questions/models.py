@@ -30,10 +30,10 @@ class question(models.Model):
         with open("Ithink2/databaseSheet.json", "r") as sheet:
             data = json.load(sheet)
 
-        for i in range(2):
+        for i in range(len(data["questions"])):
             myQuestion = question(
-                creator=data["question"][i]["creator"],
-                question=data["question"][i]["question"],
+                creator=data["questions"][i]["creator"],
+                question=data["questions"][i]["question"],
                 status="approved"
             )
 

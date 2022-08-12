@@ -1,7 +1,7 @@
 from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
-import json
+import json, random
 
 
 class user(models.Model):
@@ -87,7 +87,11 @@ class poll(models.Model):
 
         with open("Ithink2/databaseSheet.json", "r") as sheet:
             data = json.load(sheet)
-        for i in range(6):
+            
+        random.shuffle(data["polls"])
+        
+        for i in range(len(data["polls"])):
+            print(i)
             myPoll = poll(
                 genre=data["polls"][i]["genre"],
                 creator=data["polls"][i]["creator"],

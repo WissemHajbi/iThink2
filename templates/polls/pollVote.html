@@ -33,22 +33,34 @@
 
         <div class="card p-4">
           <div class="font-monospace p-3 fs-2 text-primary" style="background-color:white">
-            <div class="" >
-              {{polls.question|title}}
+            <div class="row">
+              <div class="col-md-10" >
+                <div class="" >
+                  {{polls.question|title}}
+                </div>
+    
+                <p class="text-secondary" style="font-size: 11px;">
+                  {{ polls.created_time }}
+                </p>
+                
+                <p class="text-secondary" style="font-size: 11px;">
+                  from  <a href="{% url "profile" polls.creator  %}" class="text-decoration-none" style="font-size: 14px;" >{{ polls.creator }}</a>
+                </p>
+              </div>
+              <div class="col" >
+                {% if request.user.groups.get %} 
+                {% if polls.status == "approved" or polls.status == "pending" %} 
+                  <form method="POST">
+                      {% csrf_token %}
+                      <button type="submit" class="btn btn-danger float-end" name="disapprove" >Disapprove</button>
+                  <form>
+                {% endif %}
+                {% endif %}
+              </div>
             </div>
+          </div>
 
-            <form method="POST">
-            {% csrf_token %}
-
-            <p class="text-secondary" style="font-size: 11px;">
-              {{ polls.created_time }}
-            </p>
             
-            <p class="text-secondary" style="font-size: 11px;">
-              from  <a href="{% url "profile" polls.creator  %}" class="text-decoration-none" style="font-size: 14px;" >{{ polls.creator }}</a>
-            </p>
-            </form>
-        </div>
 
           <form method="POST">
             {% csrf_token %}
@@ -147,7 +159,6 @@
             <div class="d-grid col-1 mx-auto">
               <button type="submit" class="btn btn-primary mt-3" name="vote" >Vote</button>
             </div>
-              
           </form>
         </div>
       </div>

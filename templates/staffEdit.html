@@ -1,0 +1,135 @@
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Profile</title>
+        {% extends 'main.html' %} {% load static %}
+    </head>
+    <body>
+        {% block content %}
+        <div
+            class="container bg_light"
+            style="width: 77%; margin-top: 3.2%"
+        >
+            {% comment %} messages {% endcomment %}
+
+                {% for msg in messages %}
+                    <div class="alert alert-danger d-flex align-items-center" role="alert">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-exclamation-triangle-fill flex-shrink-0 me-2" viewBox="0 0 16 16" role="img" aria-label="Warning:">
+                        <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+                    </svg>
+                    <div>
+                        {{ msg }}
+                    </div>
+                    </div> 
+                {% endfor %}
+
+            {% comment %} polls section {% endcomment %}
+
+            {% for poll in polls %}
+    
+            <div class="card mb-3 mt-2 border-primary">
+                <div class="row g-0">
+                    <div class="col-md-2">
+                        <img src="{% static "images/poll.png" %}"
+                        class="img-fluid rounded-start p-3" alt="...">
+                    </div>
+                    <div class="col-md-7">
+                        <div class="card-body">
+                            <a href="{% url 'poll_vote' poll.pk %}" class="card-title text-decoration-none fs-5 fw-bold" >{{ poll.question|title }}</a>
+                              {% if poll.genre == "p" %}
+                              <h6><span class="badge badge-pill bg-secondary mt-2"><i class="bi bi-card-text"></i> Politics</span></h6>
+                              {% endif %}
+                              {% if poll.genre == "s" %}
+                              <h6><span class="badge badge-pill bg-warning mt-2"><i class="bi bi-dribbble"></i> Sports</span></h6>
+                              {% endif %}
+                              {% if poll.genre == "g" %}
+                              <h6><span class="badge badge-pill bg-danger mt-2"><i class="bi bi-controller"></i> Gaming</i></span></h6>
+                              {% endif %}
+                              {% if poll.genre == "h" %}
+                              <h6><span class="badge badge-pill bg-success mt-2"><i class="bi bi-activity"></i> Health</span></h6>
+                              {% endif %}
+                              {% if poll.genre == "m" %}
+                              <h6><span class="badge badge-pill bg-info mt-2"><i class="bi bi-music-note-beamed"></i> Music</span></h6>
+                              {% endif %}
+                            <p class="card-text">
+                                <small class="text-muted"
+                                    >Posted {{ poll.created_time|timesince }} ago</small
+                                >
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col mt-2">
+                            {% if poll.status == "approved" %}
+                                    <a href="{% url "changeStatus" poll.pk "approved" "poll"%}" type="submit" class="btn btn-success m-1" style="font-size:13px" name="" >Approved</a>
+                            {% else %}
+                                    <a href="{% url "changeStatus" poll.pk "approved" "poll"%}" type="submit" class="btn btn-outline-success m-1" style="font-size:13px" name="approved" >Approved</a>
+                            {% endif %}
+                            {% if poll.status == "pending" %}
+                                    <a href="{% url "changeStatus" poll.pk "pending" "poll"%}" type="submit" class="btn btn-warning" style="font-size:13px" name="" >Pending</a>
+                            {% else %}
+                                    <a href="{% url "changeStatus" poll.pk "pending" "poll"%}" type="submit" class="btn btn-outline-warning" style="font-size:13px" name="pending" >Pending</a>
+                            {% endif %}
+                            {% if poll.status == "disapproved" %}
+                                    <a href="{% url "changeStatus" poll.pk "disapproved" "poll"%}" type="submit" class="btn btn-danger m-1" style="font-size:13px" name="" >Disapproved</a>
+                            {% else %}
+                                    <a href="{% url "changeStatus" poll.pk "disapproved" "poll"%}" type="submit" class="btn btn-outline-danger m-1" style="font-size:13px" name="disapproved" >Disapproved</a>
+                            {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            {% endfor %}
+
+            <div class="" style="height:20px"></div>
+
+            {% comment %} questions section {% endcomment %}
+
+            {% for question in questions %}
+    
+            <div class="card mb-3 mt-2 border-success">
+                <div class="row g-0">
+                    <div class="col-md-2">
+                        <img src="{% static "images/q&a.png" %}"
+                        class="img-fluid rounded-start p-3" alt="...">
+                    </div>
+                    <div class="col-md-7">
+                        <div class="card-body">
+                            <a href="{% url "question_answer" question.pk %}" class="card-title text-decoration-none fs-5 fw-bold text-success" >{{ question.question|title }}</a>
+                            <p class="card-text mt-2">
+                                <small class="text-muted"
+                                    >Posted {{ question.created_time|timesince }} ago</small
+                                >
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col mt-2">
+                            {% if question.status == "approved" %}
+                                    <a href="{% url "changeStatus" question.pk "approved" "question" %}" type="submit" class="btn btn-success m-1" style="font-size:13px" name="" >Approved</a>
+                            {% else %}
+                                    <a href="{% url "changeStatus" question.pk "approved" "question" %}" type="submit" class="btn btn-outline-success m-1" style="font-size:13px" name="approved" >Approved</a>
+                            {% endif %}
+                            {% if question.status == "pending" %}
+                                    <a href="{% url "changeStatus" question.pk "pending" "question" %}" type="submit" class="btn btn-warning" style="font-size:13px" name="" >Pending</a>
+                            {% else %}
+                                    <a href="{% url "changeStatus" question.pk "pending" "question" %}" type="submit" class="btn btn-outline-warning" style="font-size:13px" name="pending" >Pending</a>
+                            {% endif %}
+                            {% if question.status == "disapproved" %}
+                                    <a href="{% url "changeStatus" question.pk "disapproved" "question" %}" type="submit" class="btn btn-danger m-1" style="font-size:13px" name="" >Disapproved</a>
+                            {% else %}
+                                    <a href="{% url "changeStatus" question.pk "disapproved" "question" %}" type="submit" class="btn btn-outline-danger m-1" style="font-size:13px" name="disapproved" >Disapproved</a>
+                            {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            {% endfor %}
+
+
+            {% comment %} footer section {% endcomment %}
+            <div class="" style="height:50px"></div>
+        </div>
+        {% endblock content %}
+    </body>
+</html>

@@ -4,6 +4,28 @@
             "genre": "s",
             "creator": "wissem",
             "question": "who is the next great player ?",
+            "answer1": "St Andrews",
+            "answer2": "Prestwick",
+            "answer3": "Royal Portrush",
+            "answer4": "Muirfield",
+            "answer5": "",
+            "answer6": ""
+        },
+        {
+            "genre": "s",
+            "creator": "ahmed",
+            "question": "The 150th Open is being played this weekend at St Andrews, the Home of Golf. Where were the first 12 Open championships held?",
+            "answer1": "Uruguay",
+            "answer2": "Mexico",
+            "answer3": "",
+            "answer4": "",
+            "answer5": "",
+            "answer6": ""
+        },
+        {
+            "genre": "s",
+            "creator": "hanin",
+            "question": "Liverpool have broken their transfer record to sign Darwin Núñez. The striker has played in Portugal and Spain but where was he born?",
             "answer1": "mbappe",
             "answer2": "pedri",
             "answer3": "vinicious J",
@@ -12,8 +34,19 @@
             "answer6": ""
         },
         {
-            "genre": "p",
+            "genre": "s",
             "creator": "wissem",
+            "question": "Who will captain England at the Women's Euros this summer?",
+            "answer1": "Leah Williamson",
+            "answer2": "Steph Houghton",
+            "answer3": "Lauren Hemp",
+            "answer4": "",
+            "answer5": "",
+            "answer6": ""
+        },
+        {
+            "genre": "p",
+            "creator": "hanin",
             "question": "من تريد ان تصوت له ؟",
             "answer1": "قيس سعيد",
             "answer2": "الباجي",
@@ -23,8 +56,63 @@
             "answer6": ""
         },
         {
-            "genre": "g",
+            "genre": "p",
+            "creator": "hanin",
+            "question": "كم عمر زوجة قيس سعيد؟",
+            "answer1": "48",
+            "answer2": "53",
+            "answer3": "60",
+            "answer4": "",
+            "answer5": "",
+            "answer6": ""
+        },
+        {
+            "genre": "p",
+            "creator": "hanin",
+            "question": "من هو اول رئيس لجمهوريه تونس بعد الاستقلال؟",
+            "answer1": "الحبيب بورقيبة،",
+            "answer2": " قيس سعيد",
+            "answer3": "زين العابدين بن علي ",
+            "answer4": "",
+            "answer5": "",
+            "answer6": ""
+        },
+        {
+            "genre": "p",
             "creator": "wissem",
+            "question": "متى تم بناء قصر قرطاج؟",
+            "answer1": "1960",
+            "answer2": "1969",
+            "answer3": "1850",
+            "answer4": "2010",
+            "answer5": "",
+            "answer6": ""
+        },
+        {
+            "genre": "p",
+            "creator": "hanin",
+            "question": "كم من دستور في تونس؟",
+            "answer1": "2",
+            "answer2": "4",
+            "answer3": "1",
+            "answer4": "",
+            "answer5": "",
+            "answer6": ""
+        },
+        {
+            "genre": "p",
+            "creator": "hanin",
+            "question": "متى ينوب الوزير الأول رئيس الجمهورية؟",
+            "answer1": "رئيس حكومة",
+            "answer2": "",
+            "answer3": "",
+            "answer4": "",
+            "answer5": "",
+            "answer6": ""
+        },
+        {
+            "genre": "g",
+            "creator": "ahmed",
             "question": "in which game you have the most hours on ?",
             "answer1": "league of legends",
             "answer2": "apex legends",
@@ -34,12 +122,111 @@
             "answer6": "efootball 2022"
         },
         {
-            "genre": "m",
+            "genre": "g",
             "creator": "wissem",
+            "question": "whats the best champion for midlane (lol) ?",
+            "answer1": "sylas",
+            "answer2": "zed",
+            "answer3": "katarina",
+            "answer4": "",
+            "answer5": "",
+            "answer6": ""
+        },
+        {
+            "genre": "g",
+            "creator": "ahmed",
+            "question": "is bind the best map in valorant ?",
+            "answer1": "yes",
+            "answer2": "ofc",
+            "answer3": "no",
+            "answer4": "",
+            "answer5": "",
+            "answer6": ""
+        },
+        {
+            "genre": "g",
+            "creator": "wissem",
+            "question": "how many turns can you play in a tft match ?",
+            "answer1": "15",
+            "answer2": "16",
+            "answer3": "21",
+            "answer4": "",
+            "answer5": "",
+            "answer6": ""
+        },
+        {
+            "genre": "g",
+            "creator": "wissem",
+            "question": "in 2016, how many champion did sen main ?",
+            "answer1": "14 with sylas",
+            "answer2": "20",
+            "answer3": "21",
+            "answer4": "22",
+            "answer5": "",
+            "answer6": ""
+        },
+        {
+            "genre": "m",
+            "creator": "ahmed",
             "question": "What artist has the most streams on Spotify?",
             "answer1": "Drake",
             "answer2": "Eminem",
             "answer3": "Rihanna",
+            "answer4": "",
+            "answer5": "",
+            "answer6": ""
+        },
+        {
+            "genre": "m",
+            "creator": "wissem",
+            "question": "who is the most tuned artist for clearing his voice ?",
+            "answer1": "Drake",
+            "answer2": "cardi B",
+            "answer3": "Rihanna",
+            "answer4": "",
+            "answer5": "",
+            "answer6": ""
+        },
+        {
+            "genre": "m",
+            "creator": "hanin",
+            "question": "the best eminem album ?",
+            "answer1": "casablanca",
+            "answer2": "casablanca 2 ",
+            "answer3": "Kamikaze",
+            "answer4": "",
+            "answer5": "",
+            "answer6": ""
+        },
+        {
+            "genre": "m",
+            "creator": "ahmed",
+            "question": "whos the really popular rapper that everyone seems to love but you don't like?",
+            "answer1": "Drake",
+            "answer2": "Eminem",
+            "answer3": "Rihanna",
+            "answer4": "",
+            "answer5": "",
+            "answer6": ""
+        },
+        {
+            "genre": "m",
+            "creator": "hanin",
+            "question": "how much did jay cole made for his last hit ?",
+            "answer1": "more then 20000$",
+            "answer2": "less then 20000$",
+            "answer3": "",
+            "answer4": "",
+            "answer5": "",
+            "answer6": ""
+        },
+        {
+            "genre": "m",
+            "creator": "ahmed",
+            "question": "how to make a music banger?",
+            "answer1": "you need money",
+            "answer2": "you need talent",
+            "answer3": "you need luck",
             "answer4": "",
             "answer5": "",
             "answer6": ""
@@ -57,7 +244,7 @@
         },
         {
             "genre": "h",
-            "creator": "wissem",
+            "creator": "ahmed",
             "question": "did you skip your leg day ?",
             "answer1": "yes",
             "answer2": "no",
@@ -65,21 +252,43 @@
             "answer4": "",
             "answer5": "",
             "answer6": ""
+        },
+        {
+            "genre": "h",
+            "creator": "wissem",
+            "question": "how much protein you need daily?",
+            "answer1": "more then 100g",
+            "answer2": "less then 100g",
+            "answer3": "i dont need",
+            "answer4": "",
+            "answer5": "",
+            "answer6": ""
+        },
+        {
+            "genre": "h",
+            "creator": "ahmed",
+            "question": "is cold showers healthy?",
+            "answer1": "yes",
+            "answer2": "no",
+            "answer3": "",
+            "answer4": "",
+            "answer5": "",
+            "answer6": ""
         }
     ],
 
-    "question" : [
+    "questions" : [
         {
             "question" : "who do you think will win the next worlds in soccer and why ?",
-            "creator" : "wissem"
+            "creator" : "ahmed"
         },
         {
             "question" : "how did you first hear about Barack Obama?",
-            "creator" : "wissem"
+            "creator" : "hanin"
         },
         {
             "question" : "What's a really popular game everyone seems to love but you don't like?",
-            "creator" : "wissem"
+            "creator" : "hanin"
         },
         {
             "question" : "What would life be without music?",
@@ -87,6 +296,10 @@
         },
         {
             "question" : "What is the difference between bacteria and viruses?",
+            "creator" : "ahmed"
+        },
+        {
+            "question" : "What is the difference between talent and hard work?",
             "creator" : "wissem"
         }
     ]

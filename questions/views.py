@@ -10,40 +10,50 @@ from .models import notification
 
 def answer(request, pk):
     questionn = question.objects.get(id=pk)
-
-    if questionn.status in ["disapproved", "pending"] and questionn.creator == str(request.user):
+    
+    print(type(request.user.groups.get(name="staff")))
+    
+    if questionn.status in ["disapproved", "pending"] and (questionn.creator == str(request.user) or request.user.groups.get(name="staff")):
+        print(questionn.question)
         messages.success(request, f"{questionn.status.title()} !")
 
     if request.method == 'POST':
 
+        
+
         # this section is for the answering
+        if questionn.status == "approved":
+            if "disapprove" in request.POST:
+                questionn.status = "disapproved"
+                questionn.save()
+                return redirect('question_answer', pk=questionn.pk)
+            
+            if "answer" in request.POST:
+                useranswer = request.POST["answer"] or "None"
+                if useranswer != "None":
+                    answered_user = user.objects.get(user=request.user)
+                    answered_question = questionn
+                    answered_object = question_answered.objects.create(
+                        user=answered_user, question=answered_question, answer=useranswer
+                    )
+                    answered_object.save()
+                    return redirect("home", filter_button_pressed="ALL")
+                else:
+                    messages.success(request, "Please answer the question !")
 
-        if "answer" in request.POST:
-            useranswer = request.POST["answer"] or "None"
-            if useranswer != "None":
-                answered_user = user.objects.get(user=request.user)
-                answered_question = questionn
-                answered_object = question_answered.objects.create(
-                    user=answered_user, question=answered_question, answer=useranswer
-                )
-                answered_object.save()
-                return redirect("home", filter_button_pressed="ALL")
-            else:
-                messages.success(request, "Please answer the question !")
+            # this section is for commenting
 
-        # this section is for commenting
-
-        if "comment" in request.POST:
-            my_comment = request.POST.getlist("comment") or ""
-            if my_comment[0] != "":
-                comment_user = user.objects.get(user=request.user)
-                comment_question = question.objects.get(id=pk)
-                comment_object = question_comment.objects.create(
-                    user=comment_user, question=comment_question, comment_str=my_comment[0]
-                )
-                comment_object.save()
-            else:
-                messages.success(request, "please write a comment !")
+            if "comment" in request.POST:
+                my_comment = request.POST.getlist("comment") or ""
+                if my_comment[0] != "":
+                    comment_user = user.objects.get(user=request.user)
+                    comment_question = question.objects.get(id=pk)
+                    comment_object = question_comment.objects.create(
+                        user=comment_user, question=comment_question, comment_str=my_comment[0]
+                    )
+                    comment_object.save()
+                else:
+                    messages.success(request, "please write a comment !")
 
         # this section is for deleting a comment
 
@@ -73,6 +83,8 @@ def answer(request, pk):
 
             return render(request, 'questions/questionAnswer.html', context)
 
+        
+        
     context = {
         "questions": question.objects.get(pk=pk)
     }
@@ -111,12 +123,11 @@ class notificationslist(LoginRequiredMixin, ListView):
         context = super().get_context_data(**kwargs)
         context["notifications"] = notification.objects.filter(
             user=self.request.user.id).order_by("-notification_date")
-        
+
         for i in range(len(context["notifications"])):
             if "approved" in context["notifications"][i].notification_text:
                 context["notifications"][i].feeling = "approved"
-        
-        
+
         if self.request.method == 'GET':
             if "clear_all" in self.request.GET:
                 context["my_notifications"] = notification.objects.filter(
@@ -124,13 +135,14 @@ class notificationslist(LoginRequiredMixin, ListView):
                 )
                 for notif in context["my_notifications"]:
                     notif.notification_status = "cleared"
-        
-        
+                    notif.save()
+
         return context
-    
+
     def get_success_url(self):
         return reverse("home", kwargs={
             "filter_button_pressed": "ALL"})
+
 
 class question_suggestion(CreateView):
     model = question

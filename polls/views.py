@@ -7,7 +7,7 @@ from django.contrib.auth.views import LoginView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import poll, deleted, voted, user, poll_comment
 from questions.models import question, question_answered
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 from .forms import registerForm
 from django.contrib.auth import login, authenticate
 import random
@@ -29,26 +29,17 @@ class pollslist(LoginRequiredMixin, ListView):
             this part is filtering (by id) the questions that are not answered by the user
         """
 
-        questions_all_id = []
-        for questionitem in context["questions"]:
-            questions_all_id.append(questionitem.id)
-
-        questions_not_wanted_id = []
-        for quesitionitem in context["questions"]:
-
-            for answereditem in context["answered"]:
-                if quesitionitem.id == answereditem.question.id and answereditem.user.user.id == self.request.user.id:
-                    # print(f"{questionitem.question} = {answereditem.user.user.username} = {self.request.user.id}")
-                    questions_not_wanted_id.append(quesitionitem.id)
-
-            if questionitem.status == "disapproved" or questionitem.status == "pending":
-                # print(questionitem.question)
-                questions_not_wanted_id.append(questionitem.id)
-
         questions_wanted_id = []
-        for id in questions_all_id:
-            if id not in questions_not_wanted_id:
-                questions_wanted_id.append(id)
+        for questionitem in context["questions"]:
+            notwanted = False
+            if questionitem.status in ["disapproved", "pending"]:
+                notwanted = True
+            for answereditem in context["answered"]:
+                if questionitem.id == answereditem.question.id and answereditem.user.user.id == self.request.user.id:
+                    notwanted = True
+                    break
+            if notwanted == False:
+                questions_wanted_id.append(questionitem.id)
 
         context["questions"] = question.objects.filter(
             id__in=questions_wanted_id)
@@ -196,96 +187,101 @@ def register_view(request, *args, **kwargs):
 def vote(request, pk):
     polll = poll.objects.get(id=pk)
 
-    if polll.status in ["disapproved", "pending"] and polll.creator == str(request.user):
+    if polll.status in ["disapproved", "pending"] and (polll.creator == str(request.user) or request.user.groups.get == "staff"):
         messages.success(request, f"{polll.status.title()} !")
-
+        
     if request.method == 'POST':
-
+        
         # this section is for the voting
+        
+        if polll.status == "approved":
+            if "vote" in request.POST:
+                answer = request.POST.getlist("answer") or ('None')
+                if answer != "None":
+                    if answer[0] == "answer1":
+                        polll.count1 += 1
+                        voted_user = user.objects.get(user=request.user)
+                        voted_poll = poll.objects.get(id=pk)
+                        voted_choice = 1
+                        voted_object = voted.objects.create(
+                            user=voted_user, poll=voted_poll, choice=voted_choice)
+                        voted_object.save()
+                    elif answer[0] == "answer2":
+                        polll.count2 += 1
+                        voted_user = user.objects.get(user=request.user)
+                        voted_poll = poll.objects.get(id=pk)
+                        voted_choice = 2
+                        voted_object = voted.objects.create(
+                            user=voted_user, poll=voted_poll, choice=voted_choice)
+                        voted_object.save()
+                    elif answer[0] == "answer3":
+                        polll.count3 += 1
+                        voted_user = user.objects.get(user=request.user)
+                        voted_poll = poll.objects.get(id=pk)
+                        voted_choice = 3
+                        voted_object = voted.objects.create(
+                            user=voted_user, poll=voted_poll, choice=voted_choice)
+                        voted_object.save()
+                    elif answer[0] == "answer4":
+                        polll.count4 += 1
+                        voted_user = user.objects.get(user=request.user)
+                        voted_poll = poll.objects.get(id=pk)
+                        voted_choice = 4
+                        voted_object = voted.objects.create(
+                            user=voted_user, poll=voted_poll, choice=voted_choice)
+                        voted_object.save()
+                    elif answer[0] == "answer5":
+                        polll.count5 += 1
+                        voted_user = user.objects.get(user=request.user)
+                        voted_poll = poll.objects.get(id=pk)
+                        voted_choice = 5
+                        voted_object = voted.objects.create(
+                            user=voted_user, poll=voted_poll, choice=voted_choice)
+                        voted_object.save()
+                    elif answer[0] == "answer6":
+                        polll.count6 += 1
+                        voted_user = user.objects.get(user=request.user)
+                        voted_poll = poll.objects.get(id=pk)
+                        voted_choice = 6
+                        voted_object = voted.objects.create(
+                            user=voted_user, poll=voted_poll, choice=voted_choice)
+                        voted_object.save()
+                    else:
+                        return reverse("poll_vote", kwargs={
+                            "pk": pk
+                        })
 
-        if "vote" in request.POST:
-            answer = request.POST.getlist("answer") or ('None')
-            if answer != "None":
-                if answer[0] == "answer1":
-                    polll.count1 += 1
-                    voted_user = user.objects.get(user=request.user)
-                    voted_poll = poll.objects.get(id=pk)
-                    voted_choice = 1
-                    voted_object = voted.objects.create(
-                        user=voted_user, poll=voted_poll, choice=voted_choice)
-                    voted_object.save()
-                elif answer[0] == "answer2":
-                    polll.count2 += 1
-                    voted_user = user.objects.get(user=request.user)
-                    voted_poll = poll.objects.get(id=pk)
-                    voted_choice = 2
-                    voted_object = voted.objects.create(
-                        user=voted_user, poll=voted_poll, choice=voted_choice)
-                    voted_object.save()
-                elif answer[0] == "answer3":
-                    polll.count3 += 1
-                    voted_user = user.objects.get(user=request.user)
-                    voted_poll = poll.objects.get(id=pk)
-                    voted_choice = 3
-                    voted_object = voted.objects.create(
-                        user=voted_user, poll=voted_poll, choice=voted_choice)
-                    voted_object.save()
-                elif answer[0] == "answer4":
-                    polll.count4 += 1
-                    voted_user = user.objects.get(user=request.user)
-                    voted_poll = poll.objects.get(id=pk)
-                    voted_choice = 4
-                    voted_object = voted.objects.create(
-                        user=voted_user, poll=voted_poll, choice=voted_choice)
-                    voted_object.save()
-                elif answer[0] == "answer5":
-                    polll.count5 += 1
-                    voted_user = user.objects.get(user=request.user)
-                    voted_poll = poll.objects.get(id=pk)
-                    voted_choice = 5
-                    voted_object = voted.objects.create(
-                        user=voted_user, poll=voted_poll, choice=voted_choice)
-                    voted_object.save()
-                elif answer[0] == "answer6":
-                    polll.count6 += 1
-                    voted_user = user.objects.get(user=request.user)
-                    voted_poll = poll.objects.get(id=pk)
-                    voted_choice = 6
-                    voted_object = voted.objects.create(
-                        user=voted_user, poll=voted_poll, choice=voted_choice)
-                    voted_object.save()
+                    polll.save()
+                    return redirect("home", filter_button_pressed="ALL")
                 else:
-                    return reverse("poll_vote", kwargs={
-                        "pk": pk
-                    })
+                    messages.success(request, "Please choose an answer !")
 
+            # this section is for commenting
+
+            if "comment" in request.POST:
+                my_comment = request.POST.getlist("comment")
+                if my_comment != "":
+                    comment_user = user.objects.get(user=request.user)
+                    comment_poll = poll.objects.get(id=pk)
+                    comment_object = poll_comment.objects.create(
+                        user=comment_user, poll=comment_poll, comment_str=my_comment[0]
+                    )
+                    comment_object.save()
+                else:
+                    messages.success(request, "Please write a comment !")
+
+                # deleting the comment from the QueryDict to not comment again
+                
+                request.POST._mutable = True
+                del request.POST["comment"]
+                request.POST._mutable = False
+            
+            if "disapprove" in request.POST:
+                polll.status = "disapproved"
                 polll.save()
-                return redirect("home", filter_button_pressed="ALL")
-            else:
-                messages.success(request, "Please choose an answer !")
-
-        # this section is for commenting
-
-        if "comment" in request.POST:
-            my_comment = request.POST.getlist("comment")
-            if my_comment != "":
-                comment_user = user.objects.get(user=request.user)
-                comment_poll = poll.objects.get(id=pk)
-                comment_object = poll_comment.objects.create(
-                    user=comment_user, poll=comment_poll, comment_str=my_comment[0]
-                )
-                comment_object.save()
-            else:
-                messages.success(request, "Please write a comment !")
-
-            # deleting the comment from the QueryDict to not comment again
-
-            request.POST._mutable = True
-            del request.POST["comment"]
-            request.POST._mutable = False
+                return redirect('poll_vote', pk=polll.pk)
 
         # this section is for showing more comments
-
         if "show_more" in request.POST:
             context = {
                 'polls': polll
@@ -365,7 +361,7 @@ def delete_comment_poll(request, id, pk):
     return redirect("poll_vote", pk=pk)
 
 
-class poll_suggestion(CreateView):
+class poll_suggestion(LoginRequiredMixin, CreateView):
     model = poll
     fields = ["question", "genre",
               "answer1", "answer2", "answer3", "answer4", "answer5", "answer6"]
@@ -378,3 +374,33 @@ class poll_suggestion(CreateView):
     def get_success_url(self):
         return reverse("home", kwargs={
             "filter_button_pressed": "ALL"})
+
+
+class staffEditlist(LoginRequiredMixin, ListView):
+    model = poll
+    template_name = "staffEdit.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["polls"] = poll.objects.filter(
+            status__in=["disapproved", "pending"]).order_by("created_time")
+
+        context["questions"] = question.objects.filter(
+            status__in=["disapproved", "pending"]).order_by("created_time")
+            
+        return context
+
+
+def changeStatus(request, pk, statusButton, genre):
+    if genre == "poll":      
+        myItem = poll.objects.get(id=pk)
+    elif genre == "question":
+        myItem = question.objects.get(id=pk)
+        
+    if statusButton != myItem.status:
+        myItem.status = statusButton
+        myItem.save()
+    else:
+        messages.success(
+            request, "Please choose another status !")
+    return redirect("staffEdit")

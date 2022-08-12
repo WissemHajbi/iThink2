@@ -33,6 +33,9 @@
                 <div class="col ms-5">
                     <a class="navbar-brand text-primary fs-3 ms-4" href="{% url "profile" request.user %}"><i class="bi bi-person-square"></i></a>
                     <a class="navbar-brand text-primary fs-3 " href="{% url "notifications" %}"><i class="bi bi-bell-fill"></i></a>
+                    {% if request.user.groups.get %}
+                        <a class="navbar-brand text-primary fs-3 " href="{% url "staffEdit" %}"><i class="bi bi-shield-lock-fill"></i></a>
+                    {% endif %}
                 </div>
                 <div class="col">
                     <a class="navbar-brand text-primary fs-3 ms-4 float-end" href="{% url 'logout' %}"><i class="bi bi-box-arrow-right"></i></a>
