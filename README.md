@@ -8,16 +8,29 @@ You can submit your **ideas** and suggestions in various political, economic, so
 
 ## In the project :
 
+
 ### Accounts :
 
 it's necessary to own an account in order to access our website. (all your data except your name are not public !)
 your profile will have a cover, a profile picture and your number of contributions
 
 
-![image](https://user-images.githubusercontent.com/76587329/177739430-d6d5ff9d-470d-4956-9bb3-6f842d43428b.png)
+![image](https://user-images.githubusercontent.com/76587329/177739430-d6d5ff9d-470d-4956-9bb3-6f842d43428b.png) 
+
 ![image](https://user-images.githubusercontent.com/76587329/177739621-40e59ca9-41c0-42dc-8e67-4274a0cb36af.png)
 
 ![image](https://user-images.githubusercontent.com/76587329/177754040-37f3f5f3-2457-404a-830a-1dc175fc7e58.png)
+
+![image](https://user-images.githubusercontent.com/76587329/184323264-289e70b4-ec85-431d-8a85-e7cf6fa08f00.png)
+
+
+### Notifications :
+
+A notification is a message that get displayed to provide the user with reminders, communication from other people, or other timely informations. 
+Users can tap the notification to open or take an action directly from the notification.
+
+![image](https://user-images.githubusercontent.com/76587329/184321760-c9da4e12-530b-4458-8f58-56db2a9c6eb3.png)
+
 
 ### Polls :
 
@@ -36,6 +49,7 @@ polls are the top element in the home page structure, so you can choose which po
 
 ![image](https://user-images.githubusercontent.com/76587329/177744073-7bc67f88-fb21-42b2-a6b9-cb240b2def4f.png)
 
+
 ### Questions :
 
 questions are the second half of our core elements and they are simple.
@@ -48,12 +62,14 @@ like the polls, answering a question will result in deleting it, also deleting a
 
 ![image](https://user-images.githubusercontent.com/76587329/177744982-673e0e3b-46e3-405d-a2e8-76205b44c8e2.png)
 
+
 ### Comments : 
 
 the comment section is where people discuss the topic before deciding as some questions demand a high level of understanding.
 you can comment both on the polls and the questions (be nice and respectful as comments can result in serious actions !) 
 
 ![image](https://user-images.githubusercontent.com/76587329/177750229-83a42345-0a74-4d37-aecf-d719d8c4e39f.png)
+
 
 ### Data :
 
@@ -72,6 +88,15 @@ we mentioned before that users can submit their polls and questions to the admin
 ![image](https://user-images.githubusercontent.com/76587329/177750713-c7ab6ccc-2960-402d-901b-17fe0278fc1f.png)
 
 
+### Auth:
+
+a Staff Group is a high level classification for grouping POSITIONS. that have the responsability to run the website from inside
+
+![image](https://user-images.githubusercontent.com/76587329/184322644-20a8ff79-11d9-4a9b-99f4-cbf9f4f56b09.png)
+
+![image](https://user-images.githubusercontent.com/76587329/184323028-169e2a03-27c7-462a-9db1-a16e69b39a9e.png)
+
+
 ### Todo list :
 
 we will be publishing our to-do list publicly here as any sort of help is more than welcomed.
@@ -87,7 +112,7 @@ we will be publishing our to-do list publicly here as any sort of help is more t
 
 3. we are working on a follow system to make users follow each other and this will result in :
 
-    - you will receive the polls and questions of the users you follow
+    - you recieving the polls and questions of the users you follow first
     - their comments will be pinned in your polls and questions
 
 4. we are working on a statistics section on the home page
