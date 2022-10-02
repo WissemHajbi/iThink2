@@ -26,7 +26,7 @@ class question(models.Model):
     created_time = models.DateTimeField(default=timezone.now)
 
     def make():
-        
+
         with open("Ithink2/databaseSheet.json", "r") as sheet:
             data = json.load(sheet)
 
@@ -45,12 +45,19 @@ class question(models.Model):
     def get_absolute_url(self):
         return reverse("home")
 
+
 class question_answered(models.Model):
 
     user = models.ForeignKey(
         user, on_delete=models.CASCADE, related_name='answered_question')
     question = models.ForeignKey(question, on_delete=models.CASCADE)
     answer = models.CharField(max_length=1000)
+
+    def __str__(self):
+        question = self.question.question[:100] + \
+            "..." if len(
+                self.question.question) > 100 else self.question.question
+        return f"{self.user.username} answered '' {question} '' "
 
 
 class question_comment(models.Model):
@@ -86,12 +93,13 @@ class notification(models.Model):
     user = models.ForeignKey(
         user, on_delete=models.CASCADE)
     poll = models.IntegerField(null=True, blank=True)
-    question= models.IntegerField(null=True, blank=True)
+    question = models.IntegerField(null=True, blank=True)
 
     def __str__(self):
-        return  f"{self.user.username} has a notification"
+        return f"{self.user.username} has a notification"
 
 # status changing notifications
+
 
 @receiver(pre_save, sender=poll)
 def change_status(sender, instance,  **kwargs):
@@ -100,39 +108,40 @@ def change_status(sender, instance,  **kwargs):
             if instance.status == "approved":
                 notif = notification.objects.create(
                     notification_text="your poll has been approved",
-                    poll = instance.id,
-                    user = user.objects.get(username=instance.creator)
+                    poll=instance.id,
+                    user=user.objects.get(username=instance.creator)
                 )
                 notif.save()
             elif instance.status == "disapproved":
                 notif = notification.objects.create(
                     notification_text="your poll has been disapproved, you may want to check it",
-                    poll = instance.id,
-                    user = user.objects.get(username=instance.creator)
+                    poll=instance.id,
+                    user=user.objects.get(username=instance.creator)
                 )
             notif.save()
     except Exception as e:
-        # if the object is still not created 
+        # if the object is still not created
         print(e)
+
 
 @receiver(pre_save, sender=question)
 def change_status(sender, instance,  **kwargs):
-    try:   
+    try:
         if sender.objects.get(id=instance.id).status != instance.status:
             if instance.status == "approved":
                 notif = notification.objects.create(
                     notification_text="your question has been approved",
-                    question = instance.id,
-                    user = user.objects.get(username=instance.creator)
+                    question=instance.id,
+                    user=user.objects.get(username=instance.creator)
                 )
                 notif.save()
             elif instance.status == "disapproved":
-                    notif = notification.objects.create(
-                        notification_text="your question has been disapproved, you may want to check it",
-                        question = instance.id,
-                        user = user.objects.get(username=instance.creator)
-                    )
+                notif = notification.objects.create(
+                    notification_text="your question has been disapproved, you may want to check it",
+                    question=instance.id,
+                    user=user.objects.get(username=instance.creator)
+                )
             notif.save()
     except Exception as e:
-        # if the object is still not created 
+        # if the object is still not created
         pass

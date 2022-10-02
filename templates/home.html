@@ -147,7 +147,7 @@
             {% endif %}
 
               <div class="col d-flex justify-content-center" style="margin-top:50px;">
-                <div class="card shadow-lg p-3 mb-5" style="width:18rem;height:87%;">
+                <div class="card shadow-lg p-3 mb-5" style="width:18rem;height:430px;">
                   <a href="{% url 'question_answer' question.pk %}" class="text-decoration-none text-dark">
                     <img src="{% static 'images/q&a.png' %}" class="card-img-top" alt="...">
                     <div class="card-body">
@@ -159,7 +159,7 @@
 
             {% if forloop.counter|divisibleby:3 or forloop.last %}
               </div>
-              </div>
+            </div>
             {% endif %}
           {% endfor %}
 

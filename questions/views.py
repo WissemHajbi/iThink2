@@ -124,10 +124,6 @@ class notificationslist(LoginRequiredMixin, ListView):
         context["notifications"] = notification.objects.filter(
             user=self.request.user.id).order_by("-notification_date")
 
-        for i in range(len(context["notifications"])):
-            if "approved" in context["notifications"][i].notification_text:
-                context["notifications"][i].feeling = "approved"
-
         if self.request.method == 'GET':
             if "clear_all" in self.request.GET:
                 context["my_notifications"] = notification.objects.filter(
@@ -138,10 +134,6 @@ class notificationslist(LoginRequiredMixin, ListView):
                     notif.save()
 
         return context
-
-    def get_success_url(self):
-        return reverse("home", kwargs={
-            "filter_button_pressed": "ALL"})
 
 
 class question_suggestion(CreateView):

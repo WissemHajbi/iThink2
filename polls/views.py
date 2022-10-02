@@ -189,11 +189,11 @@ def vote(request, pk):
 
     if polll.status in ["disapproved", "pending"] and (polll.creator == str(request.user) or request.user.groups.get == "staff"):
         messages.success(request, f"{polll.status.title()} !")
-        
+
     if request.method == 'POST':
-        
+
         # this section is for the voting
-        
+
         if polll.status == "approved":
             if "vote" in request.POST:
                 answer = request.POST.getlist("answer") or ('None')
@@ -271,11 +271,11 @@ def vote(request, pk):
                     messages.success(request, "Please write a comment !")
 
                 # deleting the comment from the QueryDict to not comment again
-                
+
                 request.POST._mutable = True
                 del request.POST["comment"]
                 request.POST._mutable = False
-            
+
             if "disapprove" in request.POST:
                 polll.status = "disapproved"
                 polll.save()
@@ -387,16 +387,16 @@ class staffEditlist(LoginRequiredMixin, ListView):
 
         context["questions"] = question.objects.filter(
             status__in=["disapproved", "pending"]).order_by("created_time")
-            
+
         return context
 
 
 def changeStatus(request, pk, statusButton, genre):
-    if genre == "poll":      
+    if genre == "poll":
         myItem = poll.objects.get(id=pk)
     elif genre == "question":
         myItem = question.objects.get(id=pk)
-        
+
     if statusButton != myItem.status:
         myItem.status = statusButton
         myItem.save()
