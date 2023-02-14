@@ -11,7 +11,6 @@ from .models import notification
 def answer(request, pk):
     questionn = question.objects.get(id=pk)
     
-    print(type(request.user.groups.get(name="staff")))
     
     if questionn.status in ["disapproved", "pending"] and (questionn.creator == str(request.user) or request.user.groups.get(name="staff")):
         print(questionn.question)

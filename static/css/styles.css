@@ -1,23 +1,27 @@
 body {
   background-color: #b8c6db;
 }
+
 .container {
   margin-top: 50px;
   box-shadow: 0 0 10px 12px rbga(100, 100, 100, 0.1);
   border-radius: 10px;
 }
+
 #add_button {
-  margin-top:50px;
-  margin-right:30px;  
+  margin-top: 50px;
+  margin-right: 30px;
   border-radius: 10px;
 }
-#title{
-  font-family:'Lobster',cursive;
+
+#title {
+  font-family: 'Lobster', cursive;
 }
 
-#delete{
-  opacity:0;
+#delete {
+  opacity: 0;
 }
-#delete:hover{
-  opacity:1;
+
+#delete:hover {
+  opacity: 1;
 }
